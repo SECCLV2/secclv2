@@ -18,7 +18,7 @@ class paginacionModel extends Model {
 	public function count($table, array $filtros = array(), array $extra = array())
 	{
 		echo '<pre>';
-		echo 'Master Select: <br/>';
+		echo 'Count extra: <br/>';
 		print_r($extra);
 		echo '</pre><hr/>';
 
@@ -73,7 +73,7 @@ class paginacionModel extends Model {
 		if (PRUEBAS_BD == 'On')
 		{
 			echo '<pre>';
-			echo 'Master Select: <br/>';
+			echo 'Paginador Count: <br/>';
 			print_r($count);
 			echo '</pre><hr/>';
 		}
@@ -174,7 +174,7 @@ class paginacionModel extends Model {
 		if (PRUEBAS_BD == 'On')
 		{
 			echo '<pre>';
-			echo 'Master Select: <br/>';
+			echo 'Paginador Select: <br/>';
 			print_r($sql);
 			echo '</pre><hr/>';
 		}

@@ -19,10 +19,11 @@ class permiRolController extends administradorController {
 
 	public function roles($pagina)
 	{
-//		if (Session::get('logueado'))
-//			$this->_acl->acceso('ACCES_PERMISO', true, '5050');
-//		else
-//			$this->redireccionar();
+		/* 		if (Session::get('logueado'))
+		 * 			$this->_acl->acceso('ACCES_PERMISO', true, '5050');
+		 * 		else
+		 * 			$this->redireccionar();
+		 */
 
 		$condicion = array('ROL_ESTADO' => '1');
 		$this->_view->ddlRoles = $this->_master->masterSelect('*', 'T_ROLES', $condicion);
@@ -32,7 +33,8 @@ class permiRolController extends administradorController {
 
 		if ($this->getInt('enviar') == 1)
 		{
-//			$this->_acl->acceso('INSERT_PERMISO', true, '5050');
+			$this->_view->datos = $_POST;
+
 			$parametros['ddlRoles'] = array(
 				'requerido' => true,
 				'valCode' => array(
@@ -63,69 +65,71 @@ class permiRolController extends administradorController {
 	public function cargar($rol, $pagina)
 	{
 		$this->_view->filtros = $_POST;
-//		if ($this->getPostParam('btnFiltros') == 'limpiar')
-//		{
-//			$this->_view->filtros = false;
+		/* 		if ($this->getPostParam('btnFiltros') == 'limpiar')
+		 * 		{
+		 * 			$this->_view->filtros = false;
+		 */
 		$filtros = array();
-//		}
-//		else if ($this->getPostParam('enviar') == '2')
-//		{
-//			$parametros['txtFLlave'] = array(
-//				'requerido' => false,
-//				'valCode' => array(
-//					'V109'
-//				)
-//			);
-//			$parametros['txtFDetalle'] = array(
-//				'requerido' => false,
-//				'valCode' => array(
-//					'V103'
-//				)
-//			);
-//			$parametros['txtFEstado'] = array(
-//				'requerido' => false,
-//				'valCode' => array(
-//					'V101'
-//				)
-//			);
-//			$parametros['txtFFecha'] = array(
-//				'requerido' => false,
-//				'valCode' => array(
-//					'V107'
-//				)
-//			);
-//			$parametros['txtFHora'] = array(
-//				'requerido' => false,
-//				'valCode' => array(
-//					'V110'
-//				)
-//			);
-//
-//			$val = $this->validar($parametros);
-//
-//			if ($val == 1)
-//			{
-//				$filtros = array(
-//					'PERMISO_DETALLE' => $this->getPostParam('txtFDetalle'),
-//					'PERMISO_KEY' => $this->getPostParam('txtFLlave'),
-//					'EST_REG_TIP_EST' => $this->getPostParam('txtFEstado'),
-//					'EST_REG_FECHA_REGISTRO' => $this->getPostParam('txtFFecha'),
-//					'EST_REG_HORA_REGISTRO' => $this->getPostParam('txtFHora')
-//				);
-//			}
-//			else
-//			{
-//				$filtros = array();
-//			}
-//		}
-//		else
-//		{
-//			$filtros = array();
-//		}
+		/* 		}
+		 * 		else if ($this->getPostParam('enviar') == '2')
+		 * 		{
+		 * 			$parametros['txtFLlave'] = array(
+		 * 				'requerido' => false,
+		 * 				'valCode' => array(
+		 * 					'V109'
+		 * 				)
+		 * 			);
+		 * 			$parametros['txtFDetalle'] = array(
+		 * 				'requerido' => false,
+		 * 				'valCode' => array(
+		 * 					'V103'
+		 * 				)
+		 * 			);
+		 * 			$parametros['txtFEstado'] = array(
+		 * 				'requerido' => false,
+		 * 				'valCode' => array(
+		 * 					'V101'
+		 * 				)
+		 * 			);
+		 * 			$parametros['txtFFecha'] = array(
+		 * 				'requerido' => false,
+		 * 				'valCode' => array(
+		 * 					'V107'
+		 * 				)
+		 * 			);
+		 * 			$parametros['txtFHora'] = array(
+		 * 				'requerido' => false,
+		 * 				'valCode' => array(
+		 * 					'V110'
+		 * 				)
+		 * 			);
+		 *
+		 * 			$val = $this->validar($parametros);
+		 *
+		 * 			if ($val == 1)
+		 * 			{
+		 * 				$filtros = array(
+		 * 					'PERMISO_DETALLE' => $this->getPostParam('txtFDetalle'),
+		 * 					'PERMISO_KEY' => $this->getPostParam('txtFLlave'),
+		 * 					'EST_REG_TIP_EST' => $this->getPostParam('txtFEstado'),
+		 * 					'EST_REG_FECHA_REGISTRO' => $this->getPostParam('txtFFecha'),
+		 * 					'EST_REG_HORA_REGISTRO' => $this->getPostParam('txtFHora')
+		 * 				);
+		 * 			}
+		 * 			else
+		 * 			{
+		 * 				$filtros = array();
+		 * 			}
+		 * 		}
+		 * 		else
+		 * 		{
+		 * 			$filtros = array();
+		 * 		}
+		 */
 
-		$tablas = 'T_PERMI_ROLES PR '
-				. 'LEFT JOIN T_PERMISOS TP'
-				. ' ON TP.PERMISO_ID = PR.PERMROL_ID_PERMISO '
+		$tablas = 'T_PERMISOS TP '
+				. 'LEFT JOIN T_PERMI_ROLES PR'
+				. ' ON PR.PERMROL_ID_PERMISO = TP.PERMISO_ID '
 				. 'INNER JOIN T_ESTADOS_REG ESR'
 				. ' ON ESR.EST_REG_ID = TP.PERMISO_EST_REG';
 		$extra = array(
@@ -133,12 +137,17 @@ class permiRolController extends administradorController {
 			'campos' => 'PERMISO_ID',
 			'sentido' => 'ASC',
 			'condiciones' => array(
-				'EST_REG_TIP_EST' => 1,
-				'PERMROL_ID_ROL' => $rol
+				'EST_REG_TIP_EST' => 1
 			)
 		);
 
 		$count = $this->_view->permisos = $this->_pag->count($tablas, $filtros, $extra);
+		
+		echo '<pre>';
+		echo 'Count: <br/>';
+		print_r($count);
+		echo '</pre><hr/>';
+		
 		$this->_view->permisos = $this->_pag->rownumSelect($tablas, '*', $count, 5, $pagina, $filtros, $extra);
 		$num = $count['REGISTROS'][0] / 5;
 		$this->_view->paginas = round($num, 5, PHP_ROUND_HALF_EVEN);

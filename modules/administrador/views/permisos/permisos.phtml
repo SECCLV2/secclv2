@@ -2,6 +2,7 @@
 
 <?php //if ($this->_acl->acceso('INSERT_PERMISO', false)): ?>
 <form name="frmIPermiso" method="post">
+	<input type="hidden" value="1" name="enviar"/>
 	<p>
 		<label>Llave del Permiso: </label>
 		<input type="text" name="txtLlave" value="<?php if (isset($this->datos['txtLlave'])) echo $this->datos['txtLlave']; ?>"/>
