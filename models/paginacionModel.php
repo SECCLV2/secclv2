@@ -18,7 +18,7 @@ class paginacionModel extends Model {
 	public function count($table, array $filtros = array(), array $extra = array())
 	{
 		echo '<pre>';
-		echo 'Master Select: <br/>';
+		echo 'Count extra: <br/>';
 		print_r($extra);
 		echo '</pre><hr/>';
 
