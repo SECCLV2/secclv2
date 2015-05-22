@@ -15,6 +15,9 @@ define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', realpath(__DIR__) . DS);
 define('APP_PATH', ROOT . 'application' . DS);
 
+
+///jajajajaajajajajajaj
+
 try
 {
 	require_once APP_PATH . 'Autoload.php';
