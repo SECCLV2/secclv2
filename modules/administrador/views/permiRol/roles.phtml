@@ -2,6 +2,7 @@
 
 <?php //if ($this->_acl->acceso('INSERT_PERMISO', false)): ?>
 <form name="frmRol" method="post" action="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permiRol/roles/1'); ?>">
+	<input type="hidden" value="1" name="enviar"/>
 	<p>
         <label>Roles: </label>
 		<?php if (isset($this->ddlRoles) && count($this->ddlRoles)): ?>

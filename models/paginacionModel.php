@@ -17,6 +17,11 @@ class paginacionModel extends Model {
 
 	public function count($table, array $filtros = array(), array $extra = array())
 	{
+		echo '<pre>';
+		echo 'Master Select: <br/>';
+		print_r($extra);
+		echo '</pre><hr/>';
+
 		if (!key_exists('condiciones', $extra))
 			$extra['condiciones'] = '';
 		if (!key_exists('otros', $extra))
@@ -29,7 +34,7 @@ class paginacionModel extends Model {
 			for ($i = 0; $i < count($arrayCondicion); $i++)
 			{
 				$condicion .= $arrayCondicion[$i] . ' = '
-						. $extra['condiciones'][$i] . ' AND ';
+						. $extra['condiciones'][$arrayCondicion[$i]] . ' AND ';
 			}
 			$condicion = substr($condicion, 0, -5);
 		}
@@ -103,7 +108,7 @@ class paginacionModel extends Model {
 			for ($i = 0; $i < count($arrayCondicion); $i++)
 			{
 				$condicion .= $arrayCondicion[$i] . ' = '
-						. $extra['condiciones'][$i] . ' AND ';
+						. $extra['condiciones'][$arrayCondicion[$i]] . ' AND ';
 			}
 			$condicion = substr($condicion, 0, -5);
 		}
@@ -119,7 +124,7 @@ class paginacionModel extends Model {
 				$filtro = 'AND ';
 			else
 				$filtro = 'WHERE ';
-			
+
 			for ($i = 0; $i < count($arrayFiltros); $i++)
 			{
 				if ($filtros[$arrayFiltros[$i]])

@@ -33,7 +33,7 @@ class permiRolController extends administradorController {
 		if ($this->getInt('enviar') == 1)
 		{
 //			$this->_acl->acceso('INSERT_PERMISO', true, '5050');
-			$parametros['ddlRol'] = array(
+			$parametros['ddlRoles'] = array(
 				'requerido' => true,
 				'valCode' => array(
 					'V001',
@@ -50,7 +50,7 @@ class permiRolController extends administradorController {
 				exit;
 			}
 
-			$this->cargar($pagina);
+			$this->cargar($this->getPostParam('ddlRoles'), $pagina);
 		}
 		else if ($this->getInt('enviar') == 'hola')
 		{
@@ -125,7 +125,7 @@ class permiRolController extends administradorController {
 
 		$tablas = 'T_PERMI_ROLES PR '
 				. 'LEFT JOIN T_PERMISOS TP'
-				. ' ON TP.PERMISO_ID = PR.PERMROL_ID_PERMISO'
+				. ' ON TP.PERMISO_ID = PR.PERMROL_ID_PERMISO '
 				. 'INNER JOIN T_ESTADOS_REG ESR'
 				. ' ON ESR.EST_REG_ID = TP.PERMISO_EST_REG';
 		$extra = array(

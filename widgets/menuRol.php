@@ -3,7 +3,6 @@
 class menuRolWidget extends Widget {
 
 	private $_modelo;
-	private $_modelo;
 
 	public function __construct()
 	{

@@ -13,10 +13,6 @@ define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', realpath(__DIR__) . DS);
 define('APP_PATH', ROOT . 'application' . DS);
 
-/*
- * hola oscar
- */
-
 try
 {
 	require_once APP_PATH . 'Autoload.php';
@@ -24,7 +20,6 @@ try
 	
 	Session::init();
 	Bootstrap::run(new Request);
-//	echo Hash::getHash('adminSeccl_2015');
 }
 catch (Exception $e)
 {
