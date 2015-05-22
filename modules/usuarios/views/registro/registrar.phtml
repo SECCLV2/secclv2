@@ -1,11 +1,11 @@
-<h2>Registrar Nuevo Usuario</h2>
-
-<form name="frmRUsuario" method="post" action="">
+<h4>Registrar Nuevo Usuario</h4>
+<br>
+<form name="frmRUsuario" method="post" action="" class="form-group  col-xs-3">
     <input type="hidden" value="1" name="enviar"/>
-    <p>
+<!--    <div class="form-group">-->
         <label>Tipo de Documento: </label>
         <?php if (isset($this->ddlTDocumento) && count($this->ddlTDocumento)): ?>
-            <select name="ddlTDocumento">
+        <select name="ddlTDocumento" class="form-control input-sm">
                 <option value="0">Seleccione...</option>
                 <?php
                 for ($i = 0; $i < $this->ddlTDocumento['numRows']; $i++):
@@ -29,35 +29,35 @@
         <?php else: ?>
             <strong>No se encontraron elementos!!!</strong>
         <?php endif; ?>
-    </p>
-    <p>
+    <!--</div>-->
+    <!--<div class="form-group">-->
         <label>Documento: </label>
-        <input type="text" name="txtDocumento" value="<?php if (isset($this->datos['txtDocumento'])) echo $this->datos['txtDocumento']; ?>"/>
-    </p>
-    <p>
+        <input type="text" name="txtDocumento" value="<?php if (isset($this->datos['txtDocumento'])) echo $this->datos['txtDocumento']; ?>" class="form-control"/>
+<!--    </div>
+    <div class="form-group">-->
         <label>Lugar de Expedición: </label>
-        <input type="text" name="txtLExpedicion" value="<?php if (isset($this->datos['txtLExpedicion'])) echo $this->datos['txtLExpedicion']; ?>"/>
-    </p>
-    <p>
+        <input type="text" name="txtLExpedicion" value="<?php if (isset($this->datos['txtLExpedicion'])) echo $this->datos['txtLExpedicion']; ?>" class="form-control"/>
+<!--    </div>
+    <div class="form-group">-->
         <label>Nombre: </label>
-        <input type="text" name="txtNombre" value="<?php if (isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']; ?>"/>
-    </p>
-    <p>
+        <input type="text" name="txtNombre" value="<?php if (isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']; ?>" class="form-control"/>
+<!--    </div>
+    <div class="form-group">-->
         <label>Primer Apellido: </label>
-        <input type="text" name="txtPApellido" value="<?php if (isset($this->datos['txtPApellido'])) echo $this->datos['txtPApellido']; ?>"/>
-    </p>
-    <p>
+        <input type="text" name="txtPApellido" value="<?php if (isset($this->datos['txtPApellido'])) echo $this->datos['txtPApellido']; ?>" class="form-control"/>
+<!--    </div>
+    <div class="form-group">-->
         <label>Segundo Apellido: </label>
-        <input type="text" name="txtSApellido" value="<?php if (isset($this->datos['txtSApellido'])) echo $this->datos['txtSApellido']; ?>"/>
-    </p>
-    <p>
+        <input type="text" name="txtSApellido" value="<?php if (isset($this->datos['txtSApellido'])) echo $this->datos['txtSApellido']; ?>" class="form-control"/>
+<!--    </div>
+    <div class="form-group">-->
         <label>Correo Electronico: </label>
-        <input type="text" name="txtEmail" value="<?php if (isset($this->datos['txtEmail'])) echo $this->datos['txtEmail']; ?>"/>
-    </p>
-    <p>
+        <input type="text" name="txtEmail" value="<?php if (isset($this->datos['txtEmail'])) echo $this->datos['txtEmail']; ?>" class="form-control"/>
+<!--    </div>
+    <div class="form-group">-->
         <label>Pais de Nacimiento: </label>
         <?php if (isset($this->ddlPais) && count($this->ddlPais)): ?>
-            <select name="ddlPNacimiento">
+            <select name="ddlPNacimiento"  class="form-control input-sm">
                 <option value="0">Seleccione...</option>
                 <?php
                 for ($i = 0; $i < $this->ddlPais['numRows']; $i++):
@@ -81,15 +81,15 @@
         <?php else: ?>
             <strong>No se encontraron elementos!!!</strong>
         <?php endif; ?>
-    </p>
-    <p>
+<!--    </div>
+    <div class="form-group">-->
         <label>Fecha de Nacimiento: </label>
-        <input type="text" name="txtFNacimiento" value="<?php if (isset($this->datos['txtFNacimiento'])) echo $this->datos['txtFNacimiento']; ?>"/>
-    </p>
-    <p>
+        <input type="text" name="txtFNacimiento" value="<?php if (isset($this->datos['txtFNacimiento'])) echo $this->datos['txtFNacimiento']; ?>" class="form-control"/>
+<!--    </div>
+    <div class="form-group">-->
         <label>Nacionalidad: </label>
         <?php if (isset($this->ddlPais) && count($this->ddlPais)): ?>
-            <select name="ddlNacionalidad">
+            <select name="ddlNacionalidad" class="form-control input-sm">
                 <option value="0">Seleccione...</option>
                 <?php
                 for ($i = 0; $i < $this->ddlPais['numRows']; $i++):
@@ -113,11 +113,11 @@
         <?php else: ?>
             <strong>No se encontraron elementos!!!</strong>
         <?php endif; ?>
-    </p>
-    <p>
+<!--    </div>
+    <div class="form-group">-->
         <label>Genero: </label>
         <?php if (isset($this->ddlGenero) && count($this->ddlGenero)): ?>
-            <select name="ddlGenero">
+            <select name="ddlGenero" class="form-control input-sm">
                 <option value="0">Seleccione...</option>
                 <?php
                 for ($i = 0; $i < $this->ddlGenero['numRows']; $i++):
@@ -141,11 +141,11 @@
         <?php else: ?>
             <strong>No se encontraron elementos!!!</strong>
         <?php endif; ?>
-    </p>
-    <p>
+<!--    </div>
+    <div class="form-group">-->
         <label>Grupo Sanguineo: </label>
         <?php if (isset($this->ddlGSanguineo) && count($this->ddlGSanguineo)): ?>
-            <select name="ddlGSanguineo">
+            <select name="ddlGSanguineo" class="form-control input-sm">
                 <option value="0">Seleccione...</option>
                 <?php
                 for ($i = 0; $i < $this->ddlGSanguineo['numRows']; $i++):
@@ -169,11 +169,11 @@
         <?php else: ?>
             <strong>No se encontraron elementos!!!</strong>
         <?php endif; ?>
-    </p>
-    <p>
+<!--    </div>
+    <div class="form-group">-->
         <label>Estado Civil: </label>
         <?php if (isset($this->ddlECivil) && count($this->ddlECivil)): ?>
-            <select name="ddlECivil">
+            <select name="ddlECivil" class="form-control input-sm">
                 <option value="0">Seleccione...</option>
                 <?php
                 for ($i = 0; $i < $this->ddlECivil['numRows']; $i++):
@@ -197,18 +197,19 @@
         <?php else: ?>
             <strong>No se encontraron elementos!!!</strong>
         <?php endif; ?>
-    </p>
-    <p>
+<!--    </div>
+    <div class="form-group">-->
         <label>Usuario: </label>
-        <input type="text" name="txtNickName" value="<?php if (isset($this->datos['txtNickName'])) echo $this->datos['txtNickName']; ?>"/>
-    </p>
-    <p>
+        <input type="text" name="txtNickName" value="<?php if (isset($this->datos['txtNickName'])) echo $this->datos['txtNickName']; ?>" class="form-control"/>
+<!--    </div>
+    <div class="form-group">-->
         <label>Contraseña: </label>
-        <input type="password" name="txtPassword"/>
-    </p>
-    <p>
+        <input type="password" name="txtPassword" class="form-control"/>
+<!--    </div>
+    <div class="form-group">-->
         <label>Repita la Contraseña: </label>
-        <input type="password" name="txtConfirmar"/>
-    </p>
-    <input type="submit" value="Registrar"/>
+        <input type="password" name="txtConfirmar" class="form-control"/>
+    <!--</div>-->
+    <br>
+    <input type="submit" value="Registrar" class="btn btn-warning center-block"/>
 </form>

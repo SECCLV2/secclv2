@@ -1,7 +1,6 @@
 			</div>
-			<div id="footer">
-                copyright &copy; 2015 <?php echo APP_COMPANY; ?>
-            </div>
+                        <hr/>
+                        <footer class="text-center">copyright &copy; 2015 <?php echo APP_COMPANY; ?></footer>
         </div>    
     </body>
 </html>
