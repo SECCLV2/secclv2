@@ -8,6 +8,8 @@
  */
 
 ini_set('display_errors', 1);
+ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', realpath(__DIR__) . DS);
