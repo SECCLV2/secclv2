@@ -10,7 +10,7 @@
 /*
  * Constantes principales del aplicativo, definen la base de la url y los metodos y controladores por default.
  */
-define('BASE_URL', 'http://localhost/SECCLV2/');
+define('BASE_URL', 'localhost:81/SECCLV2');
 define('DEFAULT_CONTROLLER', 'index');
 define('DEFAULT_LAYOUT', 'default');
 
@@ -34,7 +34,7 @@ define('HASH_KEY', '552093d8dd36d');
 /*
  * Constantes de conexión con la base de datos.
  */
-define('DB_HOST', '10.96.108.90');
+define('DB_HOST', '10.96.108.90:81');
 define('DB_USER', 'BDPRODUCCIONV2');
 define('DB_PASS', 'admin');
 define('DB_NAME', 'BDPRODUCCIONV2');
