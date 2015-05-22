@@ -1,0 +1,14 @@
+<h2>Iniciar Sesión</h2>
+
+<form name="form1" method="post" action="">
+    <input type="hidden" value="1" name="enviar"/>
+    <p>
+        <label>Usuario: </label>
+        <input type="texto" name="txtUsuario" value="<?php if (isset($this->datos['txtUsuario'])) echo $this->datos['txtUsuario']; ?>"/>
+    </p>
+    <p>
+        <label>Contraseña: </label>
+        <input type="password" name="txtPassword" value="<?php if (isset($this->datos['txtPassword'])) echo $this->datos['txtPassword']; ?>"/>
+    </p>
+    <input type="submit" value="Iniciar"/>
+</form>

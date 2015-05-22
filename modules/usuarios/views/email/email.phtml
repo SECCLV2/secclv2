@@ -1,0 +1,80 @@
+<h2>Registro de Emails</h2>
+<form name="frmEmails" method="post" action="">
+    <input type="hidden" value="1" name="enviar"/>
+    <p>
+        <label>Tipo de Email: </label>
+        <?php if (isset($this->ddlTEmail) && count($this->ddlTEmail)): ?>
+            <select name="ddlTEmail">
+                <option value="0">Seleccione...</option>
+                <?php
+                for ($i = 0; $i < $this->ddlTEmail['numRows']; $i++):
+                    if (isset($this->datos['ddlTEmail']) &&
+                            $this->datos['ddlTEmail'] == $this->ddlTEmail['TIP_EMAIL_ID'][$i]):
+                        ?>
+                        <option value="<?php echo $this->ddlTEmail['TIP_EMAIL_ID'][$i]; ?>" selected>
+                            <?php echo mb_convert_case($this->ddlTEmail['TIP_EMAIL_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
+                        </option>
+                        <?php
+                    else:
+                        ?>
+                        <option value="<?php echo $this->ddlTEmail['TIP_EMAIL_ID'][$i]; ?>">
+                            <?php echo mb_convert_case($this->ddlTEmail['TIP_EMAIL_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
+                        </option>
+                    <?php
+                    endif;
+                endfor;
+                ?>
+            </select>
+        <?php else: ?>
+            <strong>No se encontraron elementos!!!</strong>
+        <?php endif; ?>
+    </p>
+    <p>
+        <label>Correo Electronico: </label>
+        <input type="text" name="txtEmail" value="<?php if (isset($this->datos['txtEmail'])) echo $this->datos['txtEmail']; ?>"/>
+    </p>
+    <input type="submit" value="Registrar"/>
+</form>
+<?php
+//var_dump($this->consEmails);
+?>
+
+<?php if (isset($this->consEmails) && count($this->consEmails)): ?>
+    <table>
+        <tr>
+            <td>
+                Tipo
+            </td>
+            <td>
+                Email
+            </td>
+            <td>
+                Modificar
+            </td>
+            <td>
+
+            </td>
+        </tr>
+        <?php for ($i = 0; $i < $this->consEmails['numRows']; $i++): ?>
+            <tr>
+                <td>
+                    <?php echo $this->consEmails['TIP_EMAIL_DESCRIPCION'][$i] ?>
+                </td>
+                <td>
+                    <?php echo $this->consEmails['EMAIL_DIRECCION'][$i] ?>
+                </td>
+                <td>
+
+                </td>
+                <td>
+                    <?php if ($this->consEmails['EMAIL_TIPO_EMAIL'][$i] != 1): ?>
+                        <a href="<?php echo BASE_URL . Hash::urlEncrypt('usuarios/email/desactivar/' . $this->consEmails['EMAIL_ID'][$i]) ?>">Eliminar</a>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        <?php endfor; ?>
+    </table>
+<?php else: ?>
+    <strong>No se encontraron emails</strong>
+<?php endif; ?>
+
