@@ -22,7 +22,7 @@
     <body>
         <div id="main" class="container-fluid">
             <div id="header">
-                <img src="<?php echo BASE_URL. 'public' . DS . 'img' . DS . 'header.jpg'; ?>" class="img-thumbnail" width="100%">
+                <img src="<?php echo BASE_URL. 'public/img/header.jpg'; ?>" class="img-thumbnail" width="100%">
             </div>
             <nav class="navbar navbar-default">
                 <a class="navbar-brand" href=""><?php echo APP_NAME;?></a>
