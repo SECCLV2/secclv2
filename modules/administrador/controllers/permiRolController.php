@@ -127,9 +127,9 @@ class permiRolController extends administradorController {
 		 * 		}
 		 */
 
-		$tablas = 'T_PERMI_ROLES PR '
-				. 'LEFT JOIN T_PERMISOS TP'
-				. ' ON TP.PERMISO_ID = PR.PERMROL_ID_PERMISO '
+		$tablas = 'T_PERMISOS TP '
+				. 'LEFT JOIN T_PERMI_ROLES PR'
+				. ' ON PR.PERMROL_ID_PERMISO = TP.PERMISO_ID '
 				. 'INNER JOIN T_ESTADOS_REG ESR'
 				. ' ON ESR.EST_REG_ID = TP.PERMISO_EST_REG';
 		$extra = array(
@@ -137,8 +137,7 @@ class permiRolController extends administradorController {
 			'campos' => 'PERMISO_ID',
 			'sentido' => 'ASC',
 			'condiciones' => array(
-				'EST_REG_TIP_EST' => 1,
-				'PERMROL_ID_ROL' => $rol
+				'EST_REG_TIP_EST' => 1
 			)
 		);
 
