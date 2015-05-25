@@ -11,8 +11,6 @@
  * Constantes principales del aplicativo, definen la base de la url y los metodos y controladores por default.
  */
 define('BASE_URL', 'http://localhost:81/SECCLV2/');
-define('DEFAULT_CONTROLLER', 'index');
-define('DEFAULT_LAYOUT', 'default');
 
 /*
  * Constantes con los datos del aplicativo (datos a mostrar en el mismo).
