@@ -1,115 +1,112 @@
-<h2>Insertar Nuevo Permiso</h2>
-
+<h4>Insertar Nuevo Permiso</h4>
+<br>
 <?php //if ($this->_acl->acceso('INSERT_PERMISO', false)): ?>
-<form name="frmIPermiso" method="post">
-	<input type="hidden" value="1" name="enviar"/>
-	<p>
-		<label>Llave del Permiso: </label>
-		<input type="text" name="txtLlave" value="<?php if (isset($this->datos['txtLlave'])) echo $this->datos['txtLlave']; ?>"/>
-	</p>
-	<p>
-		<label>Detalles del Permiso: </label>
-		<textarea name="txtDPermiso">
-			<?php if (isset($this->datos['txtDPermiso'])) echo $this->datos['txtDPermiso']; ?>
-		</textarea> 
-	</p>
-	<input type="submit" value="Insertar"/>
+<form name="frmIPermiso" method="post" class="form-inline" role="form">
+    <input type="hidden" value="1" name="enviar"/>
+    <div class="form-group">
+        Llave del Permiso:<br/>
+        <input type="text" name="txtLlave" value="<?php if (isset($this->datos['txtLlave'])) echo $this->datos['txtLlave']; ?>" class="form-control"/>
+    </div>
+    <div class="form-group">
+        Detalles del Permiso:<br/>
+        <textarea name="txtDPermiso" class="form-control" rows="1">
+            <?php if (isset($this->datos['txtDPermiso'])) echo $this->datos['txtDPermiso']; ?>
+        </textarea> 
+    </div>
+    <button type="submit" class="btn btn-search glyphicon glyphicon-floppy-saved"></button>
 </form>
 <?php //endif; ?>
-
+<br/>
 <?php if (isset($this->permisos) && $this->permisos['numRows'] > 0): ?>
-	<form class="frmPaginador" name="frmIPermiso" method="post">
-		<input type="hidden" value="2" name="enviar"/>
-		<table>
-			<tr>
-				<td>
-					Llave:
-					<input type="tex" name="txtFLlave" value="<?php if (isset($this->filtros['txtFLlave'])) echo $this->filtros['txtFLlave']; ?>"/>
-				</td>
-				<td colspan="2">
-					Detalles:
-					<input type="tex" name="txtFDetalle" value="<?php if (isset($this->filtros['txtFDetalle'])) echo $this->filtros['txtFDetalle']; ?>"/>
-				</td>
-				<td>
-					<input type="submit"  name="btnFiltros" value="filtrar"/>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Estado:
-					<input type="tex" name="txtFEstado" value="<?php if (isset($this->filtros['txtFEstado'])) echo $this->filtros['txtFEstado']; ?>"/>
-				</td>
-				<td>
-					Fecha Registro:
-					<input type="tex" name="txtFFecha" value="<?php if (isset($this->filtros['txtFFecha'])) echo $this->filtros['txtFFecha']; ?>"/>
-				</td>
-				<td>
-					Hora Registro:
-					<input type="tex" name="txtFHora" value="<?php if (isset($this->filtros['txtFHora'])) echo $this->filtros['txtFHora']; ?>"/>
-				</td>
-				<td>
-					<input type="submit" name="btnFiltros" value="limpiar"/>
-				</td>
-			</tr>
-		</table>
-		<table>
-			<tr>
-				<th colspan="2">Datos Permisos</th>
-				<th colspan="7">Estado Actual</th>
-			</tr>
-			<tr>
-				<th rowspan="2">N°</th>
-				<th rowspan="2">Llave</th>
-				<th rowspan="2">Detalles</th>
-				<th rowspan="2">Fecha Registro</th>
-				<th rowspan="2">Hora Registro</th>
-				<th colspan="2">Estado</th>
-			</tr>
-			<tr>
-				<th>Activo</th>
-				<th>Inactivo</th>
-			</tr>
-			<?php for ($i = 0; $i < $this->permisos['numRows']; $i++): ?>
-				<tr>
-					<td><?php echo ($i + 1) * $this->actual; ?></td>
-					<td><?php echo $this->permisos['PERMISO_KEY'][$i]; ?></td>
-					<td><?php echo $this->permisos['PERMISO_DETALLE'][$i]; ?></td>
-					<td><?php echo $this->permisos['EST_REG_FECHA_REGISTRO'][$i]; ?></td>
-					<td><?php echo $this->permisos['EST_REG_HORA_REGISTRO'][$i]; ?></td>
-					<?php $chk = $this->permisos['EST_REG_TIP_EST'][$i] ?>
-					<td>
-						<input type="radio" name="radEstado<?php echo $i; ?>" value="1" <?php echo ($chk == 1) ? 'checked' : ''; ?>/>
-					</td>
-					<td>
-						<input type="radio" name="radEstado<?php echo $i; ?>" value="2" <?php echo ($chk == 2) ? 'checked' : ''; ?>/>
-					</td>
-				</tr>
-			<?php endfor; ?>
-			<tr>
-				<td colspan="8">
-					<div>
-						<?php $ant = (($this->actual - 1) < 1) ? 1 : ($this->actual - 1); ?>
-						<?php $sig = (($this->actual + 1) > $this->paginas) ? $this->paginas : ($this->actual + 1); ?>
-						<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/1'); ?>"><<-</a>
-						<a class="linkPaginador" href="<?php echo ('administrador/permisos/permisos/' . $ant); ?>"><-</a>
-						<?php for ($i = 1; $i <= $this->paginas; $i++): ?>
-							<?php if ($i == $this->actual): ?>
-								<a style="background: #819FF7;"><?php echo $i; ?></a>
-							<?php elseif ($i >= ($this->actual - 7) && $i <= ($this->actual + 7)): ?>
-								<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $i); ?>"><?php echo $i; ?></a>
-							<?php else: ?>
-								<?php if ($i == ($this->actual - 8) && ($this->actual - 8) != 1): ?>
-									<a>...</a>
-								<?php elseif ($i == ($this->actual + 8) && ($this->actual + 8) != $this->paginas): ?>
-									<a>...</a>
-								<?php endif; ?>
-							<?php endif; ?>
-						<?php endfor; ?>
-						<a class="linkPaginador" href="<?php echo ('administrador/permisos/permisos/' . $sig); ?>">-></a>
-						<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $this->paginas); ?>">->></a>
-					</div>
-				</td>
-			</tr>
-		</table>
-	</form>
+    <form class="form-inline" role="form" name="frmIPermiso" method="post">
+        <input type="hidden" value="2" name="enviar"/>
+
+        <div class="form-group ">
+            Llave:<br/>
+            <input type="tex" name="txtFLlave" value="<?php if (isset($this->filtros['txtFLlave'])) echo $this->filtros['txtFLlave']; ?>" class="form-control input-sm"/>
+        </div>
+        <div class="form-group">
+            Detalles:<br/>
+            <input type="tex" name="txtFDetalle" value="<?php if (isset($this->filtros['txtFDetalle'])) echo $this->filtros['txtFDetalle']; ?>" class="form-control input-sm"/>
+        </div>
+
+        <div class="form-group">
+            Estado:<br/>
+            <input type="tex" name="txtFEstado" value="<?php if (isset($this->filtros['txtFEstado'])) echo $this->filtros['txtFEstado']; ?>" class="form-control input-sm"/>
+        </div>
+        <div class="form-group">
+            Fecha Registro:<br/>
+            <input type="tex" name="txtFFecha" value="<?php if (isset($this->filtros['txtFFecha'])) echo $this->filtros['txtFFecha']; ?>" class="form-control input-sm"/>
+        </div>
+        <div class="form-group">
+            Hora Registro:<br/>
+            <input type="tex" name="txtFHora" value="<?php if (isset($this->filtros['txtFHora'])) echo $this->filtros['txtFHora']; ?>" class="form-control input-sm"/>
+        </div>
+
+        <div class="form-group">
+            <button type="submit"  name="btnFiltros" class="btn btn-search glyphicon glyphicon-search"></button>
+
+            <button type="submit" name="btnFiltros"  class="btn btn-search glyphicon glyphicon-trash"></button>
+        </div>
+        <br/>
+        <table>
+            <tr>
+                <th colspan="2">Datos Permisos</th>
+                <th colspan="7">Estado Actual</th>
+            </tr>
+            <tr>
+                <th rowspan="2">N°</th>
+                <th rowspan="2">Llave</th>
+                <th rowspan="2">Detalles</th>
+                <th rowspan="2">Fecha Registro</th>
+                <th rowspan="2">Hora Registro</th>
+                <th colspan="2">Estado</th>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <th>Inactivo</th>
+            </tr>
+            <?php for ($i = 0; $i < $this->permisos['numRows']; $i++): ?>
+                <tr>
+                    <td><?php echo ($i + 1) * $this->actual; ?></td>
+                    <td><?php echo $this->permisos['PERMISO_KEY'][$i]; ?></td>
+                    <td><?php echo $this->permisos['PERMISO_DETALLE'][$i]; ?></td>
+                    <td><?php echo $this->permisos['EST_REG_FECHA_REGISTRO'][$i]; ?></td>
+                    <td><?php echo $this->permisos['EST_REG_HORA_REGISTRO'][$i]; ?></td>
+                    <?php $chk = $this->permisos['EST_REG_TIP_EST'][$i] ?>
+                    <td>
+                        <input type="radio" name="radEstado<?php echo $i; ?>" value="1" <?php echo ($chk == 1) ? 'checked' : ''; ?>/>
+                    </td>
+                    <td>
+                        <input type="radio" name="radEstado<?php echo $i; ?>" value="2" <?php echo ($chk == 2) ? 'checked' : ''; ?>/>
+                    </td>
+                </tr>
+            <?php endfor; ?>
+            <tr>
+                <td colspan="8">
+                    <div class="form-group">
+                        <?php $ant = (($this->actual - 1) < 1) ? 1 : ($this->actual - 1); ?>
+                        <?php $sig = (($this->actual + 1) > $this->paginas) ? $this->paginas : ($this->actual + 1); ?>
+                        <a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/1'); ?>"><<-</a>
+                        <a class="linkPaginador" href="<?php echo ('administrador/permisos/permisos/' . $ant); ?>"><-</a>
+                        <?php for ($i = 1; $i <= $this->paginas; $i++): ?>
+                            <?php if ($i == $this->actual): ?>
+                                <a style="background: #819FF7;"><?php echo $i; ?></a>
+                            <?php elseif ($i >= ($this->actual - 7) && $i <= ($this->actual + 7)): ?>
+                                <a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $i); ?>"><?php echo $i; ?></a>
+                            <?php else: ?>
+                                <?php if ($i == ($this->actual - 8) && ($this->actual - 8) != 1): ?>
+                                    <a>...</a>
+                                <?php elseif ($i == ($this->actual + 8) && ($this->actual + 8) != $this->paginas): ?>
+                                    <a>...</a>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                        <a class="linkPaginador" href="<?php echo ('administrador/permisos/permisos/' . $sig); ?>">-></a>
+                        <a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $this->paginas); ?>">->></a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
 <?php endif; ?>
