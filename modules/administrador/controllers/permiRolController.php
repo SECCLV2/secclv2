@@ -41,7 +41,7 @@ class permiRolController extends administradorController {
 					'V001',
 					'V108'
 				),
-				'mensaje' => 'Roles:'
+				'mensaje' => 'Roles: '
 			);
 
 			$val = $this->validar($parametros);
