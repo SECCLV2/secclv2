@@ -51,12 +51,12 @@ class permiRolController extends administradorController {
 				$this->_view->renderizar('roles', 'permisos', 'login');
 				exit;
 			}
-
 			$this->cargar($this->getPostParam('ddlRoles'), $pagina);
 		}
-		else if ($this->getInt('enviar') == 'hola')
+		else if ($this->getInt('enviar') == '3')
 		{
 			$this->modificar();
+			$this->cargar($this->getPostParam('ddlRoles'), $pagina);
 		}
 
 		$this->_view->renderizar('roles', 'permisos', 'login');
