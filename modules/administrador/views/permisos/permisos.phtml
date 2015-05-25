@@ -23,24 +23,24 @@
 
         <div class="form-group ">
             Llave:<br/>
-            <input type="tex" name="txtFLlave" value="<?php if (isset($this->filtros['txtFLlave'])) echo $this->filtros['txtFLlave']; ?>" class="form-control input-sm"/>
+            <input type="tex" name="txtFLlave" value="<?php if (isset($this->filtros['txtFLlave'])) echo $this->filtros['txtFLlave']; ?>" class="form-control "/>
         </div>
         <div class="form-group">
             Detalles:<br/>
-            <input type="tex" name="txtFDetalle" value="<?php if (isset($this->filtros['txtFDetalle'])) echo $this->filtros['txtFDetalle']; ?>" class="form-control input-sm"/>
+            <input type="tex" name="txtFDetalle" value="<?php if (isset($this->filtros['txtFDetalle'])) echo $this->filtros['txtFDetalle']; ?>" class="form-control "/>
         </div>
 
         <div class="form-group">
             Estado:<br/>
-            <input type="tex" name="txtFEstado" value="<?php if (isset($this->filtros['txtFEstado'])) echo $this->filtros['txtFEstado']; ?>" class="form-control input-sm"/>
+            <input type="tex" name="txtFEstado" value="<?php if (isset($this->filtros['txtFEstado'])) echo $this->filtros['txtFEstado']; ?>" class="form-control "/>
         </div>
         <div class="form-group">
             Fecha Registro:<br/>
-            <input type="tex" name="txtFFecha" value="<?php if (isset($this->filtros['txtFFecha'])) echo $this->filtros['txtFFecha']; ?>" class="form-control input-sm"/>
+            <input type="tex" name="txtFFecha" value="<?php if (isset($this->filtros['txtFFecha'])) echo $this->filtros['txtFFecha']; ?>" class="form-control "/>
         </div>
         <div class="form-group">
             Hora Registro:<br/>
-            <input type="tex" name="txtFHora" value="<?php if (isset($this->filtros['txtFHora'])) echo $this->filtros['txtFHora']; ?>" class="form-control input-sm"/>
+            <input type="tex" name="txtFHora" value="<?php if (isset($this->filtros['txtFHora'])) echo $this->filtros['txtFHora']; ?>" class="form-control "/>
         </div>
 
         <div class="form-group">
@@ -48,8 +48,9 @@
 
             <button type="submit" name="btnFiltros"  class="btn btn-search glyphicon glyphicon-trash"></button>
         </div>
-        <br/>
-        <table>
+        <br/><br/>
+        <div class="container">
+        <table class="table-condensed table-striped table-bordered">
             <tr>
                 <th colspan="2">Datos Permisos</th>
                 <th colspan="7">Estado Actual</th>
@@ -108,5 +109,6 @@
                 </td>
             </tr>
         </table>
+        </div>
     </form>
 <?php endif; ?>
