@@ -49,66 +49,67 @@
             <button type="submit" name="btnFiltros"  class="btn btn-search glyphicon glyphicon-trash"></button>
         </div>
         <br/><br/>
+
         <div class="container">
-        <table class="table-condensed table-striped table-bordered">
-            <tr>
-                <th colspan="2">Datos Permisos</th>
-                <th colspan="7">Estado Actual</th>
-            </tr>
-            <tr>
-                <th rowspan="2">N°</th>
-                <th rowspan="2">Llave</th>
-                <th rowspan="2">Detalles</th>
-                <th rowspan="2">Fecha Registro</th>
-                <th rowspan="2">Hora Registro</th>
-                <th colspan="2">Estado</th>
-            </tr>
-            <tr>
-                <th>Activo</th>
-                <th>Inactivo</th>
-            </tr>
-            <?php for ($i = 0; $i < $this->permisos['numRows']; $i++): ?>
+            <table class="table-condensed table-striped table-bordered">
                 <tr>
-                    <td><?php echo ($i + 1) * $this->actual; ?></td>
-                    <td><?php echo $this->permisos['PERMISO_KEY'][$i]; ?></td>
-                    <td><?php echo $this->permisos['PERMISO_DETALLE'][$i]; ?></td>
-                    <td><?php echo $this->permisos['EST_REG_FECHA_REGISTRO'][$i]; ?></td>
-                    <td><?php echo $this->permisos['EST_REG_HORA_REGISTRO'][$i]; ?></td>
-                    <?php $chk = $this->permisos['EST_REG_TIP_EST'][$i] ?>
-                    <td>
-                        <input type="radio" name="radEstado<?php echo $i; ?>" value="1" <?php echo ($chk == 1) ? 'checked' : ''; ?>/>
-                    </td>
-                    <td>
-                        <input type="radio" name="radEstado<?php echo $i; ?>" value="2" <?php echo ($chk == 2) ? 'checked' : ''; ?>/>
+                    <th class="warning" colspan="2">Datos Permisos</th>
+                    <th class="warning" colspan="7">Estado Actual</th>
+                </tr>
+                <tr>
+                    <th rowspan="2">N°</th>
+                    <th rowspan="2">Llave</th>
+                    <th rowspan="2">Detalles</th>
+                    <th rowspan="2">Fecha Registro</th>
+                    <th rowspan="2">Hora Registro</th>
+                    <th colspan="2">Estado</th>
+                </tr>
+                <tr>
+                    <th>Activo</th>
+                    <th>Inactivo</th>
+                </tr>
+                <?php for ($i = 0; $i < $this->permisos['numRows']; $i++): ?>
+                    <tr>
+                        <td><?php echo ($i + 1) * $this->actual; ?></td>
+                        <td><?php echo $this->permisos['PERMISO_KEY'][$i]; ?></td>
+                        <td><?php echo $this->permisos['PERMISO_DETALLE'][$i]; ?></td>
+                        <td><?php echo $this->permisos['EST_REG_FECHA_REGISTRO'][$i]; ?></td>
+                        <td><?php echo $this->permisos['EST_REG_HORA_REGISTRO'][$i]; ?></td>
+                        <?php $chk = $this->permisos['EST_REG_TIP_EST'][$i] ?>
+                        <td>
+                            <input type="radio" name="radEstado<?php echo $i; ?>" value="1" <?php echo ($chk == 1) ? 'checked' : ''; ?>/>
+                        </td>
+                        <td>
+                            <input type="radio" name="radEstado<?php echo $i; ?>" value="2" <?php echo ($chk == 2) ? 'checked' : ''; ?>/>
+                        </td>
+                    </tr>
+                <?php endfor; ?>
+                <tr>
+                    <td colspan="8">
+                        <div class="form-group">
+                            <?php $ant = (($this->actual - 1) < 1) ? 1 : ($this->actual - 1); ?>
+                            <?php $sig = (($this->actual + 1) > $this->paginas) ? $this->paginas : ($this->actual + 1); ?>
+                            <a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/1'); ?>"><<-</a>
+                            <a class="linkPaginador" href="<?php echo ('administrador/permisos/permisos/' . $ant); ?>"><-</a>
+                            <?php for ($i = 1; $i <= $this->paginas; $i++): ?>
+                                <?php if ($i == $this->actual): ?>
+                                    <a style="background: #819FF7;"><?php echo $i; ?></a>
+                                <?php elseif ($i >= ($this->actual - 7) && $i <= ($this->actual + 7)): ?>
+                                    <a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $i); ?>"><?php echo $i; ?></a>
+                                <?php else: ?>
+                                    <?php if ($i == ($this->actual - 8) && ($this->actual - 8) != 1): ?>
+                                        <a>...</a>
+                                    <?php elseif ($i == ($this->actual + 8) && ($this->actual + 8) != $this->paginas): ?>
+                                        <a>...</a>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            <?php endfor; ?>
+                            <a class="linkPaginador" href="<?php echo ('administrador/permisos/permisos/' . $sig); ?>">-></a>
+                            <a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $this->paginas); ?>">->></a>
+                        </div>
                     </td>
                 </tr>
-            <?php endfor; ?>
-            <tr>
-                <td colspan="8">
-                    <div class="form-group">
-                        <?php $ant = (($this->actual - 1) < 1) ? 1 : ($this->actual - 1); ?>
-                        <?php $sig = (($this->actual + 1) > $this->paginas) ? $this->paginas : ($this->actual + 1); ?>
-                        <a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/1'); ?>"><<-</a>
-                        <a class="linkPaginador" href="<?php echo ('administrador/permisos/permisos/' . $ant); ?>"><-</a>
-                        <?php for ($i = 1; $i <= $this->paginas; $i++): ?>
-                            <?php if ($i == $this->actual): ?>
-                                <a style="background: #819FF7;"><?php echo $i; ?></a>
-                            <?php elseif ($i >= ($this->actual - 7) && $i <= ($this->actual + 7)): ?>
-                                <a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $i); ?>"><?php echo $i; ?></a>
-                            <?php else: ?>
-                                <?php if ($i == ($this->actual - 8) && ($this->actual - 8) != 1): ?>
-                                    <a>...</a>
-                                <?php elseif ($i == ($this->actual + 8) && ($this->actual + 8) != $this->paginas): ?>
-                                    <a>...</a>
-                                <?php endif; ?>
-                            <?php endif; ?>
-                        <?php endfor; ?>
-                        <a class="linkPaginador" href="<?php echo ('administrador/permisos/permisos/' . $sig); ?>">-></a>
-                        <a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $this->paginas); ?>">->></a>
-                    </div>
-                </td>
-            </tr>
-        </table>
+            </table>
         </div>
     </form>
 <?php endif; ?>

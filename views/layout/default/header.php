@@ -90,7 +90,7 @@
                     <?php endif; ?>
                 </ul>
             </nav>
-            <div id="content" class="container-fluid">
+            <div id="content" class="container-fluid contenido">
                 <?php if (isset($this->_error)): ?>
                     <div id="error"><?php echo $this->_error; ?></div>
                 <?php endif; ?>
