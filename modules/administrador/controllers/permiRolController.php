@@ -128,27 +128,31 @@ class permiRolController extends administradorController {
 		 */
 
 		$tablas = 'T_PERMISOS TP '
-				. 'LEFT JOIN T_PERMI_ROLES PR'
-				. ' ON PR.PERMROL_ID_PERMISO = TP.PERMISO_ID '
 				. 'INNER JOIN T_ESTADOS_REG ESR'
 				. ' ON ESR.EST_REG_ID = TP.PERMISO_EST_REG';
 		$extra = array(
 			'orderBy' => true,
 			'campos' => 'PERMISO_ID',
-			'sentido' => 'ASC',
-			'condiciones' => array(
-				'EST_REG_TIP_EST' => 1
-			)
+			'sentido' => 'ASC'
 		);
-
 		$count = $this->_view->permisos = $this->_pag->count($tablas, $filtros, $extra);
-		
-		echo '<pre>';
-		echo 'Count: <br/>';
-		print_r($count);
-		echo '</pre><hr/>';
-		
-		$this->_view->permisos = $this->_pag->rownumSelect($tablas, '*', $count, 5, $pagina, $filtros, $extra);
+		$permisos = $this->_pag->rownumSelect($tablas, '*', $count, 5, $pagina, $filtros, $extra);
+		$this->_view->permisos = $permisos;
+
+		$permRoles = array();
+		for ($i = 0; $i < $permisos['numRows']; $i++)
+		{
+			$tablaRol = 'T_PERMI_ROLES PR '
+					. 'INNER JOIN T_ESTADOS_REG ESR'
+					. ' ON ESR.EST_REG_ID = PR.PERMROL_EST_REG';
+			$condicionRol = array(
+				'PERMROL_ID_ROL' => $rol,
+				'PERMROL_ID_PERMISO' => $permisos['PERMISO_ID'][$i]
+			);
+			$resp = $this->_master->masterSelect('*', $tablaRol, $condicionRol, 'ORDER BY PERMROL_ID DESC');
+			$permRoles = array_merge_recursive($permRoles, $resp);
+		}
+		$this->_view->permRoles = $permRoles;
 		$num = $count['REGISTROS'][0] / 5;
 		$this->_view->paginas = round($num, 5, PHP_ROUND_HALF_EVEN);
 		$this->_view->actual = $pagina;

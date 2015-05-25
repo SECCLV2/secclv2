@@ -70,6 +70,9 @@
 				</td>
 			</tr>
 		</table>
+	</form>
+<form class="frmPaginador" name="frmIPermiso" method="post">
+		<input type="hidden" value="2" name="enviar"/>
 		<table>
 			<tr>
 				<th colspan="2">Datos Permisos</th>
@@ -94,7 +97,12 @@
 					<td><?php echo $this->permisos['PERMISO_DETALLE'][$i]; ?></td>
 					<td><?php echo $this->permisos['EST_REG_FECHA_REGISTRO'][$i]; ?></td>
 					<td><?php echo $this->permisos['EST_REG_HORA_REGISTRO'][$i]; ?></td>
-					<?php $chk = $this->permisos['EST_REG_TIP_EST'][$i] ?>
+					<?php
+					if (key_exists('EST_REG_TIP_EST', $this->permRoles))
+						$chk = $this->permRoles['EST_REG_TIP_EST'][$i];
+					else
+						$chk = 2;
+					?>
 					<td>
 						<input type="radio" name="radEstado<?php echo $i; ?>" value="1" <?php echo ($chk == 1) ? 'checked' : ''; ?>/>
 					</td>
@@ -129,5 +137,6 @@
 				</td>
 			</tr>
 		</table>
+		<input type="submit" name="btnGuardar" value="Guardar"/>
 	</form>
 <?php endif; ?>
