@@ -25,7 +25,8 @@ class permisosController extends administradorController {
 //			$this->redireccionar();
 
 		$this->_view->titulo = 'Gestionar Permisos';
-		$this->_view->setPlugins($plugins = array('jquery', 'pagPost'));
+		$this->_view->setPlugins($plugins = array('pagPost'));
+                $this->_view->setJs($js = array('chk_switch'));
 
 		if ($this->getInt('enviar') == 1)
 		{
@@ -190,9 +191,9 @@ class permisosController extends administradorController {
 			'sentido' => 'ASC'
 		);
 		$count = $this->_view->permisos = $this->_pag->count($tablas, $filtros, $extra);
-		$this->_view->permisos = $this->_pag->rownumSelect($tablas, '*', $count, 5, $pagina, $filtros, $extra);
-		$num = $count['REGISTROS'][0] / 5;
-		$this->_view->paginas = round($num, 5, PHP_ROUND_HALF_EVEN);
+		$this->_view->permisos = $this->_pag->rownumSelect($tablas, '*', $count, 1, $pagina, $filtros, $extra);
+		$num = $count['REGISTROS'][0] / 1;
+		$this->_view->paginas = round($num, 99, PHP_ROUND_HALF_EVEN);
 		$this->_view->actual = $pagina;
 	}
 
