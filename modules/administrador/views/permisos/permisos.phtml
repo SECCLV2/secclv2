@@ -13,7 +13,7 @@
             <?php if (isset($this->datos['txtDPermiso'])) echo $this->datos['txtDPermiso']; ?>
         </textarea> 
     </div>
-    <button type="submit" class="btn btn-search glyphicon glyphicon-floppy-saved"></button>
+    <button type="submit" class="btn btn-search glyphicon glyphicon-floppy-disk"></button>
 </form>
 <?php //endif; ?>
 <br/>
@@ -29,11 +29,6 @@
             Detalles:<br/>
             <input type="tex" name="txtFDetalle" value="<?php if (isset($this->filtros['txtFDetalle'])) echo $this->filtros['txtFDetalle']; ?>" class="form-control "/>
         </div>
-
-        <div class="form-group">
-            Estado:<br/>
-            <input type="tex" name="txtFEstado" value="<?php if (isset($this->filtros['txtFEstado'])) echo $this->filtros['txtFEstado']; ?>" class="form-control "/>
-        </div>
         <div class="form-group">
             Fecha Registro:<br/>
             <input type="tex" name="txtFFecha" value="<?php if (isset($this->filtros['txtFFecha'])) echo $this->filtros['txtFFecha']; ?>" class="form-control "/>
@@ -42,7 +37,10 @@
             Hora Registro:<br/>
             <input type="tex" name="txtFHora" value="<?php if (isset($this->filtros['txtFHora'])) echo $this->filtros['txtFHora']; ?>" class="form-control "/>
         </div>
-
+        <div class="form-group">
+            Estado:<br/>
+            <input type="tex" name="txtFEstado" value="<?php if (isset($this->filtros['txtFEstado'])) echo $this->filtros['txtFEstado']; ?>" class="form-control "/>
+        </div>
         <div class="form-group">
             <button type="submit"  name="btnFiltros" class="btn btn-search glyphicon glyphicon-search"></button>
 
@@ -50,24 +48,22 @@
         </div>
         <br/><br/>
 
-        <div class="container">
-            <table class="table-condensed table-hover table-bordered table-responsive table-striped">
-                <tr>
-                    <th class="warning" colspan="2">Datos Permisos</th>
-                    <th class="warning" colspan="7">Estado Actual</th>
-                </tr>
-                <tr>
-                    <th rowspan="2">N°</th>
-                    <th rowspan="2">Llave</th>
-                    <th rowspan="2">Detalles</th>
-                    <th rowspan="2">Fecha Registro</th>
-                    <th rowspan="2">Hora Registro</th>
-                    <th colspan="2">Estado</th>
-                </tr>
-                <tr>
-                    <th>Activo</th>
-                    <th>Inactivo</th>
-                </tr>
+        <div class="table-responsive">
+            <table class="table-condensed table-hover table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th rowspan="2">N°</th>
+                        <th rowspan="2">Llave</th>
+                        <th rowspan="2">Detalles</th>
+                        <th rowspan="2">Fecha Registro</th>
+                        <th rowspan="2">Hora Registro</th>
+                        <th colspan="2" class="text-center">Estado</th>
+                    </tr>
+                    <tr>
+                        <th>Activo</th>
+                        <th>Inactivo</th>
+                    </tr>
+                </thead>
                 <?php for ($i = 0; $i < $this->permisos['numRows']; $i++): ?>
                     <tr>
                         <td><?php echo ($i + 1) * $this->actual; ?></td>
@@ -77,7 +73,9 @@
                         <td><?php echo $this->permisos['EST_REG_HORA_REGISTRO'][$i]; ?></td>
                         <?php $chk = $this->permisos['EST_REG_TIP_EST'][$i] ?>
                         <td>
-                            <input type="radio" name="radEstado<?php echo $i; ?>" value="1" <?php echo ($chk == 1) ? 'checked' : ''; ?>/>
+                            <div class="radio">
+                                <input type="radio" name="radEstado<?php echo $i; ?>" value="1" <?php echo ($chk == 1) ? 'checked' : ''; ?>/>
+                            </div>
                         </td>
                         <td>
                             <input type="radio" name="radEstado<?php echo $i; ?>" value="2" <?php echo ($chk == 2) ? 'checked' : ''; ?>/>
