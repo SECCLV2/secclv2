@@ -17,11 +17,6 @@ class paginacionModel extends Model {
 
 	public function count($table, array $filtros = array(), array $extra = array())
 	{
-		echo '<pre>';
-		echo 'Count extra: <br/>';
-		print_r($extra);
-		echo '</pre><hr/>';
-
 		if (!key_exists('condiciones', $extra))
 			$extra['condiciones'] = '';
 		if (!key_exists('otros', $extra))
