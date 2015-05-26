@@ -53,7 +53,7 @@ class permiRolController extends administradorController {
 			}
 			$this->cargar($this->getPostParam('ddlRoles'), $pagina);
 		}
-		else if ($this->getInt('enviar') == '3')
+		else if ($this->getInt('enviar') == '2' && $this->getInt('btnGuardar') == 'Guardar')
 		{
 			$this->modificar();
 			$this->cargar($this->getPostParam('ddlRoles'), $pagina);
@@ -71,7 +71,7 @@ class permiRolController extends administradorController {
 		 */
 		$filtros = array();
 		/* 		}
-		 * 		else if ($this->getPostParam('enviar') == '2')
+		 * 		else if ($this->getPostParam('btnFiltros') == 'filtrar')
 		 * 		{
 		 * 			$parametros['txtFLlave'] = array(
 		 * 				'requerido' => false,
@@ -160,7 +160,28 @@ class permiRolController extends administradorController {
 
 	public function modificar()
 	{
-		
-	}
+		extract($_POST);
+		for ($i = 0; $i < count($chkEstado); $i++)
+		{
+			$parametros['chkEstado'.$i] = array(
+				'requerido' => false,
+				'valCode' => array(
+					'V109'
+				)
+			);
+		}
 
+		$val = $this->validar($parametros);
+
+		if ($val == 1)
+		{
+			$filtros = array(
+				'PERMISO_DETALLE' => $this->getPostParam('txtFDetalle'),
+				'PERMISO_KEY' => $this->getPostParam('txtFLlave'),
+				'EST_REG_TIP_EST' => $this->getPostParam('txtFEstado'),
+				'EST_REG_FECHA_REGISTRO' => $this->getPostParam('txtFFecha'),
+				'EST_REG_HORA_REGISTRO' => $this->getPostParam('txtFHora')
+			);
+		}
+	}
 }
