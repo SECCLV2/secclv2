@@ -1,5 +1,5 @@
 .contenido{
-    width: 92%;
+    width: 90%;
     margin: 0 auto;
     margin-top: 3%;
     text-align: justify;
@@ -10,4 +10,13 @@
 }
 .dropdown:hover > .dropdown-menu{
     display: block;
+}
+.porc_general{
+    width: 94%;
+}
+.porcentaje_5{
+    width: 5%;
+}
+.porcentaje_10{
+    width: 10%;
 }

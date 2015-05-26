@@ -7,6 +7,8 @@
         <script src="<?php echo BASE_URL; ?>public/js/jquery.js"></script>
         <script src="<?php echo BASE_URL; ?>public/bootstrap/js/bootstrap.js"></script>
         <link href="<?php echo BASE_URL; ?>public/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+        <script src="<?php echo BASE_URL; ?>public/bootstrap_switch/js/bootstrap-switch.js" type="text/javascript"></script>
+        <link href="<?php echo BASE_URL; ?>public/bootstrap_switch/css/bootstrap-switch.css" rel="stylesheet" type="text/css"/>
         <link rel='stylesheet' href='<?php echo $_layoutParams['ruta_css']; ?>estilos.css'/>
         <?php if (isset($_layoutParams['plugins']) && count($_layoutParams['plugins'])): ?>
             <?php for ($i = 0; $i < count($_layoutParams['plugins']); $i++): ?>
