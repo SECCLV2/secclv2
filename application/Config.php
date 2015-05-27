@@ -43,6 +43,6 @@ define('DB_CHAR', 'utf8');
 /*
  * ConstanteS que define el estado del aplicativo
  */
-define('PRUEBAS', 'On');
-define('PRUEBAS_BD', 'On');
-define('PRUEBAS_RUTAS', 'On');
+define('PRUEBAS', 'Off');
+define('PRUEBAS_BD', 'Off');
+define('PRUEBAS_RUTAS', 'Off');

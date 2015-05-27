@@ -38,8 +38,6 @@ class paginacionModel extends Model {
 			$condicion = '';
 		}
 
-		print_r($filtros);
-
 		if (isset($filtros) && !empty($filtros))
 		{
 			$arrayFiltros = array_keys($filtros);
