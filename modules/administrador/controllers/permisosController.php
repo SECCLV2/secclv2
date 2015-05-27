@@ -127,7 +127,7 @@ class permisosController extends administradorController {
 			$this->_view->filtros = false;
 			$filtros = array();
 		}
-		else if ($this->getPostParam('enviar') == '2')
+		else if ($this->getPostParam('btnFiltros') == 'filtrar')
 		{
 			$parametros['txtFLlave'] = array(
 				'requerido' => false,
@@ -190,9 +190,10 @@ class permisosController extends administradorController {
 			'campos' => 'PERMISO_ID',
 			'sentido' => 'ASC'
 		);
+		$numFilas = 1;
 		$count = $this->_view->permisos = $this->_pag->count($tablas, $filtros, $extra);
-		$this->_view->permisos = $this->_pag->rownumSelect($tablas, '*', $count, 1, $pagina, $filtros, $extra);
-		$num = $count['REGISTROS'][0] / 1;
+		$this->_view->permisos = $this->_pag->rownumSelect($tablas, '*', $count, $numFilas, $pagina, $filtros, $extra);
+		$num = $count['REGISTROS'][0] / $numFilas;
 		$this->_view->paginas = round($num, 99, PHP_ROUND_HALF_EVEN);
 		$this->_view->actual = $pagina;
 	}
