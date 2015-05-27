@@ -25,9 +25,7 @@ class permisosController extends administradorController {
 //			$this->redireccionar();
 
 		$this->_view->titulo = 'Gestionar Permisos';
-		$this->_view->setPlugins($plugins = array('pagPost'));
-                $this->_view->setJs($js = array('chk_switch'));
-
+		$this->_view->setPlugins($plugins = array('pagPost', 'chk_switch'));
 		if ($this->getInt('enviar') == 1)
 		{
 //			$this->_acl->acceso('INSERT_PERMISO', true, '5050');

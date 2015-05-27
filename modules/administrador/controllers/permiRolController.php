@@ -29,7 +29,7 @@ class permiRolController extends administradorController {
 		$this->_view->ddlRoles = $this->_master->masterSelect('*', 'T_ROLES', $condicion);
 
 		$this->_view->titulo = 'Gestionar Permisos';
-		$this->_view->setPlugins($plugins = array('jquery', 'pagPost'));
+		$this->_view->setPlugins($plugins = array('pagPost' , 'chk_switch'));
 
 		if ($this->getInt('enviar') == 1)
 		{
