@@ -4,8 +4,17 @@
     margin-top: 3%;
     text-align: justify;
 }
-
 #header {
     padding: 5px;
     background: orange;
+}
+.dropdown:hover > .dropdown-menu{
+    display: block;
+}
+.navbar {
+    min-height: 40px;
+}
+.navbar-brand{
+    height: 40px;
+    padding: 12px 20px;
 }

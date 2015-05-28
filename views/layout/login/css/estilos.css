@@ -11,6 +11,13 @@
 .dropdown:hover > .dropdown-menu{
     display: block;
 }
+.navbar {
+    min-height: 40px;
+}
+.navbar-brand{
+    height: 40px;
+    padding: 12px 20px;
+}
 .porc_general{
     width: 94%;
 }

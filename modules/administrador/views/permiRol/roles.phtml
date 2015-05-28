@@ -99,6 +99,8 @@
                 <?php endfor; ?>
             </table>
         </div>
+        <br/>
+        <input type="submit" name="btnGuardar" value="Guardar" class="btn center-block"/>
         <div class="form-group">
             <ul class="pagination">
                 <?php $ant = (($this->actual - 1) < 1) ? 1 : ($this->actual - 1); ?>
@@ -140,6 +142,5 @@
                 </li>
             </ul>
         </div>
-        <input type="submit" name="btnGuardar" value="Guardar"/>
     </form>
 <?php endif; ?>
