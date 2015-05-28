@@ -82,7 +82,7 @@
 						<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/1'); ?>"><span class="glyphicon glyphicon-chevron-left"></span><span class="glyphicon glyphicon-chevron-left"></span></a>
 					</li>
 					<li>
-						<a class="linkPaginador" href="<?php echo ('administrador/permisos/permisos/' . $ant); ?>"><span class="glyphicon glyphicon-chevron-left"></span></a>
+						<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $ant); ?>"><span class="glyphicon glyphicon-chevron-left"></span></a>
 					</li>
 
 					<?php for ($i = 1; $i <= $this->paginas; $i++): ?>
@@ -108,7 +108,7 @@
 					<?php endfor; ?>
 
 					<li>
-						<a class="linkPaginador" href="<?php echo ('administrador/permisos/permisos/' . $sig); ?>"><span class="glyphicon glyphicon-chevron-right"></span></a>
+						<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $sig); ?>"><span class="glyphicon glyphicon-chevron-right"></span></a>
 					</li>
 					<li>
 						<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $this->paginas); ?>"><span class="glyphicon glyphicon-chevron-right"></span><span class="glyphicon glyphicon-chevron-right"></span></a>

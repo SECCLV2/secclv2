@@ -37,7 +37,8 @@
 
 <?php if (isset($this->permisos) && $this->permisos['numRows'] > 0): ?>
 	<form class="frmPaginador" name="frmIPermiso" method="post">
-		<input type="hidden" value="2" name="enviar"/>
+		<input type="hidden" name="hidRol" value="<?php echo $this->permRoles['PERMROL_ID_ROL'][0];?>"/>
+		<input type="hidden" name="enviar" value="2"/>
 		<table>
 			<tr>
 				<td>
@@ -81,7 +82,10 @@
 			</tr>
 			<?php for ($i = 0; $i < $this->permisos['numRows']; $i++): ?>
 				<tr>
-					<td><?php echo ($i + 1) * $this->actual; ?></td>
+					<td>
+						<?php echo ($this->actual + $i); ?>
+						<input type="hidden" name="hidId[]" value="<?php echo $this->permisos['PERMISO_ID'][$i]; ?>"/>
+					</td>
 					<td><?php echo $this->permisos['PERMISO_KEY'][$i]; ?></td>
 					<td><?php echo $this->permisos['PERMISO_DETALLE'][$i]; ?></td>
 					<td><?php echo $this->permisos['EST_REG_FECHA_REGISTRO'][$i]; ?></td>
@@ -93,7 +97,7 @@
 						$chk = 0;
 					?>
 					<td>
-						<input type="checkbox" name="chkEstado[]" value="<?php echo $this->permisos['PERMISO_KEY'][$i]; ?>" <?php echo ($chk == 1) ? 'checked' : ''; ?>/>
+						<input type="checkbox" name="chkEstado[]" value="<?php echo $this->permisos['PERMISO_ID'][$i]; ?>" <?php echo ($chk == 1) ? 'checked' : ''; ?>/>
 					</td>
 				</tr>
 			<?php endfor; ?>

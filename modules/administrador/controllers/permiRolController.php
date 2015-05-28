@@ -55,7 +55,7 @@ class permiRolController extends administradorController {
 		}
 		else if ($this->getInt('enviar') == '2' && $this->getInt('btnGuardar') == 'Guardar')
 		{
-			$this->modificar();
+			$this->modificar($registros);
 			$this->cargar($this->getPostParam('ddlRoles'), $pagina);
 		}
 
@@ -135,8 +135,9 @@ class permiRolController extends administradorController {
 			'campos' => 'PERMISO_ID',
 			'sentido' => 'ASC'
 		);
+		$numFilas = 1;
 		$count = $this->_view->permisos = $this->_pag->count($tablas, $filtros, $extra);
-		$permisos = $this->_pag->rownumSelect($tablas, '*', $count, 5, $pagina, $filtros, $extra);
+		$permisos = $this->_pag->rownumSelect($tablas, '*', $count, $numFilas, $pagina, $filtros, $extra);
 		$this->_view->permisos = $permisos;
 
 		$permRoles = array();
@@ -152,18 +153,35 @@ class permiRolController extends administradorController {
 			$resp = $this->_master->masterSelect('*', $tablaRol, $condicionRol, 'ORDER BY PERMROL_ID DESC');
 			$permRoles = array_merge_recursive($permRoles, $resp);
 		}
+		$this->_view->countRows = $count;
 		$this->_view->permRoles = $permRoles;
-		$num = $count['REGISTROS'][0] / 5;
+		$num = $count['REGISTROS'][0] / $numFilas;
 		$this->_view->paginas = round($num, 5, PHP_ROUND_HALF_EVEN);
 		$this->_view->actual = $pagina;
 	}
 
 	public function modificar()
 	{
-		extract($_POST);
-		for ($i = 0; $i < count($chkEstado); $i++)
+		$parametros['hidRol'] = array(
+			'requerido' => true,
+			'valCode' => array(
+				'V101'
+			)
+		);
+
+		for ($i = 0; $i < count($_POST['hidId']); $i++)
 		{
-			$parametros['chkEstado'.$i] = array(
+			$parametros['hidId' . $i] = array(
+				'requerido' => true,
+				'valCode' => array(
+					'V101'
+				)
+			);
+		}
+
+		for ($i = 0; $i < count($_POST['chkEstado']); $i++)
+		{
+			$parametros['chkEstado' . $i] = array(
 				'requerido' => false,
 				'valCode' => array(
 					'V109'
@@ -172,16 +190,43 @@ class permiRolController extends administradorController {
 		}
 
 		$val = $this->validar($parametros);
-
 		if ($val == 1)
 		{
-			$filtros = array(
-				'PERMISO_DETALLE' => $this->getPostParam('txtFDetalle'),
-				'PERMISO_KEY' => $this->getPostParam('txtFLlave'),
-				'EST_REG_TIP_EST' => $this->getPostParam('txtFEstado'),
-				'EST_REG_FECHA_REGISTRO' => $this->getPostParam('txtFFecha'),
-				'EST_REG_HORA_REGISTRO' => $this->getPostParam('txtFHora')
-			);
+			extract($_POST);
+			for ($i = 0; $i < count($hidId); $i++)
+			{
+				$tablas = 'T_PERMI_ROLES PR '
+						. 'INNER JOIN T_ESTADOS_REG ESR'
+						. ' ON ESR.EST_REG_ID = PR.EST_REG_ID';
+				$condiciones = array(
+					'PERMROL_ID_ROL' => $hidRol[$i]
+				);
+				$permiRoles = $this->_master->masterSelect('ESR.EST_REG_TIP_EST,PR.PERMROL_ID', $tablas, $condiciones);
+
+				if ($permiRoles['numRows'] > 0)
+				{
+					$clave = array_search($hidId[$i], $permiRoles['PERMROL_ID']);
+					if (is_int($clave))
+					{
+						$verificar = array_search($hidId[$i], $chkEstado);
+						if (!is_int($verificar))
+						{
+							if ($permiRoles['EST_REG_TIP_EST'][$clave] == 1)
+							{
+								$desactivar[] = $permiRoles['PERMROL_ID'][$clave];
+							}
+						}
+						else
+						{
+							if ($permiRoles['EST_REG_TIP_EST'][$clave] == 2)
+							{
+								$activar[] = $permiRoles['PERMROL_ID'][$clave];
+							}
+						}
+					}
+				}
+			}
 		}
 	}
+
 }
