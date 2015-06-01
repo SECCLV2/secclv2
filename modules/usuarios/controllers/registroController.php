@@ -20,23 +20,23 @@ class registroController extends usuariosController {
         {
             $this->redireccionar();
         }
-
+        $this->_view->titulo = 'Registrar Usuario';
+        
         $condicion = array('TIP_DOCU_ESTADO' => '1');
-        $this->_view->ddlTDocumento = $this->_master->masterSelect('T_TIPOS_DOCS', $condicion);
-
+        $this->_view->ddlTDocumento = $this->_master->masterSelect('*', 'T_TIPS_DOCS', $condicion);
+        var_dump($this->_view->ddlTDocumento);
         $condicion = array('PAIS_ESTADO' => '1');
-        $this->_view->ddlPais = $this->_master->masterSelect('T_PAISES', $condicion);
+        $this->_view->ddlPais = $this->_master->masterSelect('*','T_PAISES', $condicion);
 
         $condicion = array('GENERO_ESTADO' => '1');
-        $this->_view->ddlGenero = $this->_master->masterSelect('T_GENEROS', $condicion);
+        $this->_view->ddlGenero = $this->_master->masterSelect('*','T_GENEROS', $condicion);
 
         $condicion = array('TIP_SAN_ESTADO' => '1');
-        $this->_view->ddlGSanguineo = $this->_master->masterSelect('T_TIP_SANGS', $condicion);
+        $this->_view->ddlGSanguineo = $this->_master->masterSelect('*','T_TIPS_SANGS', $condicion);
 
         $condicion = array('EST_CIV_ESTADO' => '1');
-        $this->_view->ddlECivil = $this->_master->masterSelect('T_EST_CIVILES', $condicion);
+        $this->_view->ddlECivil = $this->_master->masterSelect('*','T_EST_CIVILES', $condicion);
 
-        $this->_view->titulo = 'Registrar Usuario';
 
         if ($this->getInt('enviar') == 1)
         {

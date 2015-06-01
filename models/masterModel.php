@@ -23,9 +23,9 @@ class masterModel extends Model {
 
 	public function masterSelect($campos, $table, array $condiciones = array(), $extra = '')
 	{
+            
 		if (is_array($campos))
 		{
-			$camp = '';
 			foreach ($campos as $key => $value)
 			{
 				if (strtoupper((string) $key) == 'DISTINCT' && $value)
@@ -69,6 +69,7 @@ class masterModel extends Model {
 			print_r($sql);
 			echo '</pre><hr/>';
 		}
+                
 
 		return $this->queryGet($sql);
 	}
