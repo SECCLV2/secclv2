@@ -272,7 +272,7 @@ class registroController extends usuariosController {
                     'EST_REG_TABLA' => 1
                 );
 
-                $idEstado = $this->_reg->registroInsert($campos);
+                $idEstado = $this->_reg->registroInsert($campos,0);
 
                 $campos['T_USUARIOS'] = array(
                     'USU_NOMBRE' => $this->getPostParam('txtNombre'),
@@ -395,7 +395,7 @@ class registroController extends usuariosController {
             throw new Exception('Error al crear la transacción');
         }
 
-        $condicion = array('USU_ID' => $T_USUARIOS);
+        $condicion = array('USU_ID' => $T_USUARIOS);       
         $val = $this->_master->masterSelect('T_USUARIOS', $condicion);
         if ($val['numRows'] == 1 && $val['USU_EST_REG'][0] == 0)
         {

@@ -23,6 +23,7 @@ class masterModel extends Model {
 
 	public function masterSelect($campos, $table, array $condiciones = array(), $extra = '')
 	{
+            
 		if (is_array($campos))
 		{
 			foreach ($campos as $key => $value)
@@ -49,6 +50,7 @@ class masterModel extends Model {
 		{
 			$condicion = '';
 		}
+                
 		$sql = parent::prepare("SELECT $campos "
 						. "FROM $table "
 						. "$condicion "
@@ -68,8 +70,6 @@ class masterModel extends Model {
 			print_r($sql);
 			echo '</pre><hr/>';
 		}
-                
-
 		return $this->queryGet($sql);
 	}
 
@@ -85,8 +85,10 @@ class masterModel extends Model {
 		}
 		$campo = substr($campo, 0, -1);
 		$valor = substr($valor, 0, -1);
+                
 		$sql = parent::prepare("INSERT INTO $table($campo)"
 						. "VALUES ($valor)returning $id into :id");
+                
 		for ($i = 0; $i < count($arrayCampo); $i++)
 		{
 			$sql->bindParam(':' . $arrayCampo[$i], $campos[$arrayCampo[$i]]);
