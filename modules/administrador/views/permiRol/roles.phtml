@@ -6,31 +6,31 @@
     Roles:
     <br/><br/>
     <div class="form-group">
-        <?php if (isset($this->ddlRoles) && count($this->ddlRoles)): ?>
-            <select name="ddlRoles" class="form-control">
-                <option value="0">Seleccione...</option>
-                <?php
-                for ($i = 0; $i < $this->ddlRoles['numRows']; $i++):
-                    if (isset($this->datos['ddlRoles']) &&
-                            $this->datos['ddlRoles'] == $this->ddlRoles['ROL_ID'][$i]):
-                        ?>
-                        <option value="<?php echo $this->ddlRoles['ROL_ID'][$i]; ?>" selected>
-                            <?php echo mb_convert_case($this->ddlRoles['ROL_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
-                        </option>
-                        <?php
-                    else:
-                        ?>
-                        <option value="<?php echo $this->ddlRoles['ROL_ID'][$i]; ?>">
-                            <?php echo mb_convert_case($this->ddlRoles['ROL_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
-                        </option>
-                    <?php
-                    endif;
-                endfor;
-                ?>
-            </select>
-        <?php else: ?>
-            <strong>No se encontraron elementos!!!</strong>
-        <?php endif; ?>
+		<?php if (isset($this->ddlRoles) && count($this->ddlRoles)): ?>
+			<select name="ddlRoles" class="form-control">
+				<option value="0">Seleccione...</option>
+				<?php
+				for ($i = 0; $i < $this->ddlRoles['numRows']; $i++):
+					if (isset($this->datos['ddlRoles']) &&
+							$this->datos['ddlRoles'] == $this->ddlRoles['ROL_ID'][$i]):
+						?>
+						<option value="<?php echo $this->ddlRoles['ROL_ID'][$i]; ?>" selected>
+							<?php echo mb_convert_case($this->ddlRoles['ROL_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
+						</option>
+						<?php
+					else:
+						?>
+						<option value="<?php echo $this->ddlRoles['ROL_ID'][$i]; ?>">
+							<?php echo mb_convert_case($this->ddlRoles['ROL_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
+						</option>
+					<?php
+					endif;
+				endfor;
+				?>
+			</select>
+		<?php else: ?>
+			<strong>No se encontraron elementos!!!</strong>
+		<?php endif; ?>
     </div>
     <button type="submit" value="Cargar" class="btn btn-search glyphicon glyphicon-search"></button>
 </form>

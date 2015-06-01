@@ -122,18 +122,38 @@ abstract class Controller {
 
 	protected function getPostParam($clave)
 	{
-		if (array_key_exists($clave, $_POST))
+		if (strpos($clave, '//'))
 		{
-			if (isset($_POST[$clave]) && !empty($_POST[$clave]))
+			$array = explode('//', $clave);
+			if (array_key_exists($array[0], $_POST))
 			{
-				$_POST[$clave] = strip_tags($_POST[$clave]);
-				$_POST[$clave] = htmlspecialchars($_POST[$clave], ENT_QUOTES);
-				return trim($_POST[$clave]);
+				if (isset($_POST[$array[0]][$array[1]]) && !empty($_POST[$array[0]][$array[1]]))
+				{
+					$_POST[$array[0]][$array[1]] = strip_tags($_POST[$array[0]][$array[1]]);
+					$_POST[$array[0]][$array[1]] = htmlspecialchars($_POST[$array[0]][$array[1]], ENT_QUOTES);
+					return trim($_POST[$array[0]][$array[1]]);
+				}
+			}
+			else
+			{
+				return '-1';
 			}
 		}
 		else
 		{
-			return '-1';
+			if (array_key_exists($clave, $_POST))
+			{
+				if (isset($_POST[$clave]) && !empty($_POST[$clave]))
+				{
+					$_POST[$clave] = strip_tags($_POST[$clave]);
+					$_POST[$clave] = htmlspecialchars($_POST[$clave], ENT_QUOTES);
+					return trim($_POST[$clave]);
+				}
+			}
+			else
+			{
+				return '-1';
+			}
 		}
 
 		return 0;
