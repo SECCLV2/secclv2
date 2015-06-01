@@ -45,6 +45,18 @@ class Acl {
 			$this->_permRol = $this->getPermisosRol();
 			$this->_permUsu = $this->getPermisosUsuario();
 		}
+
+		if (PRUEBAS_ACL)
+		{
+			echo '<pre>';
+			echo 'ACL / Constructor - Permisos Rol:';
+			var_dump($this->_permRol);
+			echo '<hr>';
+			echo '<hr>';
+			echo 'ACL / Constructor  - Permisos Usuario:';
+			var_dump($this->_permUsu);
+			echo '</pre>';
+		}
 	}
 
 	/*
@@ -96,17 +108,26 @@ class Acl {
 
 	public function acceso($key, $error, $codigo = 'default')
 	{
+		if (PRUEBAS_ACL)
+		{
+			echo '<pre>';
+			echo 'ACL / Acceso - Rol Actual:';
+			var_dump(Session::get('nomRol'));
+			echo '<hr>';
+			echo '<hr>';
+			echo '</pre>';
+		}
+		
 		if (isset($this->_permRol[Session::get('nomRol')]['PERMISO_KEY']))
 			$permRol = array_search($key, $this->_permRol[Session::get('nomRol')]['PERMISO_KEY']);
 
 		if (isset($this->_permUsu['PERMISO_KEY']))
 			$permUsu = array_search($key, $this->_permUsu['PERMISO_KEY']);
 
-		if (($permRol) && ($this->_permRol[Session::get('nomRol')]['PERMISO_ESTADO'][$permRol] == 1 &&
-				$this->_permRol[Session::get('nomRol')]['PERMROL_ESTADO'][$permRol] == 1))
+		if (isset($permRol) && $permRol && ($this->_permRol[Session::get('nomRol')]['EST_REG_TIP_EST'][$permRol] == 1))
 			return true;
 
-		if (($permUsu) && ($this->_permUsu['PERMISO_ESTADO'][$permUsu] == 1 &&
+		if (isset($permUsu) && $permUsu && ($this->_permUsu['PERMISO_ESTADO'][$permUsu] == 1 &&
 				$this->_permUsu['PERMUSU_ESTADO'][$permUsu] == 1))
 			return true;
 

@@ -10,7 +10,7 @@
     <div class="form-group">
         Detalles del Permiso:<br/>
         <textarea name="txtDPermiso" class="form-control tam_cajat" rows="1" cols="108">
-            <?php if (isset($this->datos['txtDPermiso'])) echo $this->datos['txtDPermiso']; ?>
+			<?php if (isset($this->datos['txtDPermiso'])) echo $this->datos['txtDPermiso']; ?>
         </textarea>
     </div>
     <div class="form-group">
@@ -21,73 +21,35 @@
 <?php //endif; ?>
 <br/>
 <?php if (isset($this->permisos) && $this->permisos['numRows'] > 0): ?>
-    <form class="form-inline frmPaginador" role="form" name="frmIPermiso" method="post">
-        <input type="hidden" value="2" name="enviar"/>
+	<form class="form-inline frmPaginador" role="form" name="frmIPermiso" method="post">
+		<input type="hidden" value="2" name="enviar"/>
 
-        <div class="form-group ">
-            Llave:<br/>
-            <input type="tex" name="txtFLlave" value="<?php if (isset($this->filtros['txtFLlave'])) echo $this->filtros['txtFLlave']; ?>" class="form-control "/>
-        </div>
-        <div class="form-group">
-            Detalles:<br/>
-            <input type="tex" name="txtFDetalle" value="<?php if (isset($this->filtros['txtFDetalle'])) echo $this->filtros['txtFDetalle']; ?>" class="form-control "/>
-        </div>
-        <div class="form-group">
-            Fecha Registro:<br/>
-            <input type="tex" name="txtFFecha" value="<?php if (isset($this->filtros['txtFFecha'])) echo $this->filtros['txtFFecha']; ?>" class="form-control "/>
-        </div>
-        <div class="form-group">
-            Hora Registro:<br/>
-            <input type="tex" name="txtFHora" value="<?php if (isset($this->filtros['txtFHora'])) echo $this->filtros['txtFHora']; ?>" class="form-control "/>
-        </div>
-        <div class="form-group">
-            Estado:<br/>
-            <input type="tex" name="txtFEstado" value="<?php if (isset($this->filtros['txtFEstado'])) echo $this->filtros['txtFEstado']; ?>" class="form-control "/>
-        </div>
-        <div class="form-group">
-            <br/>
-            <button type="submit" name="btnFiltros" value="filtrar" class="btn btn-search glyphicon glyphicon-search"></button>
-            <button type="submit" name="btnFiltros" value="limpiar" class="btn btn-search glyphicon glyphicon-trash"></button>
-        </div>
-        <br/><br/>
-
-        <div class="porc_general table-responsive">
-            <table class="table-condensed table-hover table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th class="text-center porcentaje_5">N°</th>
-                        <th class="porcentaje_10">Llave</th>
-                        <th class="porcentaje_10">Detalles</th>
-                        <th class="text-center porcentaje_5">Fecha Registro</th>
-                        <th class="text-center porcentaje_5">Hora Registro</th>
-                        <th class="text-center porcentaje_5">Estado</th>
-                    </tr>
-                </thead>
-                <?php for ($i = 0; $i < $this->permisos['numRows']; $i++): ?>
-                    <tr>
-                        <td class="text-center"><?php echo ($this->actual + $i); ?></td>
-                        <td><?php echo $this->permisos['PERMISO_KEY'][$i]; ?></td>
-                        <td><?php echo $this->permisos['PERMISO_DETALLE'][$i]; ?></td>
-                        <td class="text-center"><?php echo $this->permisos['EST_REG_FECHA_REGISTRO'][$i]; ?></td>
-                        <td class="text-center"><?php echo $this->permisos['EST_REG_HORA_REGISTRO'][$i]; ?></td>
-                        <?php $chk = $this->permisos['EST_REG_TIP_EST'][$i] ?>
-                        <td class="text-center">
-                            <input class="claseSwitch" type="checkbox" name="chkEstado[]" value="1" <?php echo ($chk == 1) ? 'checked' : ''; ?>/>
-                        </td>
-                    </tr>
-                <?php endfor; ?>
-            </table>
-        </div>
-        <div class="form-group">
-            <ul class="pagination">
-                <?php $ant = (($this->actual - 1) < 1) ? 1 : ($this->actual - 1); ?>
-                <?php $sig = (($this->actual + 1) > $this->paginas) ? $this->paginas : ($this->actual + 1); ?>
-                <li>
-                    <a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/1'); ?>"><span class="glyphicon glyphicon-chevron-left"></span><span class="glyphicon glyphicon-chevron-left"></span></a>
-                </li>
-                <li>
-                    <a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $ant); ?>"><span class="glyphicon glyphicon-chevron-left"></span></a>
-                </li>
+		<div class="form-group ">
+			Llave:<br/>
+			<input type="tex" name="txtFLlave" value="<?php if (isset($this->filtros['txtFLlave'])) echo $this->filtros['txtFLlave']; ?>" class="form-control "/>
+		</div>
+		<div class="form-group">
+			Detalles:<br/>
+			<input type="tex" name="txtFDetalle" value="<?php if (isset($this->filtros['txtFDetalle'])) echo $this->filtros['txtFDetalle']; ?>" class="form-control "/>
+		</div>
+		<div class="form-group">
+			Fecha Registro:<br/>
+			<input type="tex" name="txtFFecha" value="<?php if (isset($this->filtros['txtFFecha'])) echo $this->filtros['txtFFecha']; ?>" class="form-control "/>
+		</div>
+		<div class="form-group">
+			Hora Registro:<br/>
+			<input type="tex" name="txtFHora" value="<?php if (isset($this->filtros['txtFHora'])) echo $this->filtros['txtFHora']; ?>" class="form-control "/>
+		</div>
+		<div class="form-group">
+			Estado:<br/>
+			<input type="tex" name="txtFEstado" value="<?php if (isset($this->filtros['txtFEstado'])) echo $this->filtros['txtFEstado']; ?>" class="form-control "/>
+		</div>
+		<div class="form-group">
+			<br/>
+			<button type="submit" name="btnFiltros" value="filtrar" class="btn btn-search glyphicon glyphicon-search"></button>
+			<button type="submit" name="btnFiltros" value="limpiar" class="btn btn-search glyphicon glyphicon-trash"></button>
+		</div>
+		<br/><br/>
 
 		<div class="porc_general table-responsive">
 			<table class="table-condensed table-hover table-bordered table-striped">
@@ -103,59 +65,59 @@
 				</thead>
 				<?php for ($i = 0; $i < $this->permisos['numRows']; $i++): ?>
 					<tr>
-						<td class="text-center"><?php echo ($this->actual + $i); ?></td>
+						<td class="text-center"><?php echo (($this->actual * $this->registros + $i) - $this->registros) + 1; ?></td>
 						<td><?php echo $this->permisos['PERMISO_KEY'][$i]; ?></td>
 						<td><?php echo $this->permisos['PERMISO_DETALLE'][$i]; ?></td>
 						<td class="text-center"><?php echo $this->permisos['EST_REG_FECHA_REGISTRO'][$i]; ?></td>
 						<td class="text-center"><?php echo $this->permisos['EST_REG_HORA_REGISTRO'][$i]; ?></td>
 						<?php $chk = $this->permisos['EST_REG_TIP_EST'][$i] ?>
 						<td class="text-center">
-							<input type="checkbox" name="chkEstado[]" value="1" <?php echo ($chk == 1) ? 'checked' : ''; ?>/>
+							<input class="claseSwitch" type="checkbox" name="chkEstado[]" value="1" <?php echo ($chk == 1) ? 'checked' : ''; ?>/>
 						</td>
 					</tr>
 				<?php endfor; ?>
 			</table>
-			<div class="form-group">
-				<ul class="pagination">
-					<?php $ant = (($this->actual - 1) < 1) ? 1 : ($this->actual - 1); ?>
-					<?php $sig = (($this->actual + 1) > $this->paginas) ? $this->paginas : ($this->actual + 1); ?>
-					<li>
-						<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/1'); ?>"><span class="glyphicon glyphicon-chevron-left"></span><span class="glyphicon glyphicon-chevron-left"></span></a>
-					</li>
-					<li>
-						<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $ant); ?>"><span class="glyphicon glyphicon-chevron-left"></span></a>
-					</li>
-
-					<?php for ($i = 1; $i <= $this->paginas; $i++): ?>
-						<?php if ($i == $this->actual): ?>
-							<li class="active">
-								<a><?php echo $i; ?></a>
-							</li>
-						<?php elseif ($i >= ($this->actual - 7) && $i <= ($this->actual + 7)): ?>
-							<li>
-								<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $i); ?>"><?php echo $i; ?></a>
-							</li>
-						<?php else: ?>
-							<?php if ($i == ($this->actual - 8) && ($this->actual - 8) != 1): ?>
-								<li>
-									<a>...</a>
-								</li>
-							<?php elseif ($i == ($this->actual + 8) && ($this->actual + 8) != $this->paginas): ?>
-								<li>
-									<a>...</a>
-								</li>
-							<?php endif; ?>
-						<?php endif; ?>
-					<?php endfor; ?>
-
-					<li>
-						<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $sig); ?>"><span class="glyphicon glyphicon-chevron-right"></span></a>
-					</li>
-					<li>
-						<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $this->paginas); ?>"><span class="glyphicon glyphicon-chevron-right"></span><span class="glyphicon glyphicon-chevron-right"></span></a>
-					</li>
-				</ul>
-			</div>
 		</div>
+		<div class="form-group">
+			<ul class="pagination">
+				<?php $ant = (($this->actual - 1) < 1) ? 1 : ($this->actual - 1); ?>
+				<?php $sig = (($this->actual + 1) > $this->paginas) ? $this->paginas : ($this->actual + 1); ?>
+				<li>
+					<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/1'); ?>"><span class="glyphicon glyphicon-chevron-left"></span><span class="glyphicon glyphicon-chevron-left"></span></a>
+				</li>
+				<li>
+					<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $ant); ?>"><span class="glyphicon glyphicon-chevron-left"></span></a>
+				</li>
+				<?php for ($i = 1; $i <= $this->paginas; $i++): ?>
+					<?php if ($i == $this->actual): ?>
+						<li class="active">
+							<a><?php echo $i; ?></a>
+						</li>
+					<?php elseif ($i >= ($this->actual - 7) && $i <= ($this->actual + 7)): ?>
+						<li>
+							<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $i); ?>"><?php echo $i; ?></a>
+						</li>
+					<?php else: ?>
+						<?php if ($i == ($this->actual - 8) && ($this->actual - 8) != 1): ?>
+							<li>
+								<a>...</a>
+							</li>
+						<?php elseif ($i == ($this->actual + 8) && ($this->actual + 8) != $this->paginas): ?>
+							<li>
+								<a>...</a>
+							</li>
+						<?php endif; ?>
+					<?php endif; ?>
+				<?php endfor; ?>
+
+				<li>
+					<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $sig); ?>"><span class="glyphicon glyphicon-chevron-right"></span></a>
+				</li>
+				<li>
+					<a class="linkPaginador" href="<?php echo BASE_URL . Hash::urlEncrypt('administrador/permisos/permisos/' . $this->paginas); ?>"><span class="glyphicon glyphicon-chevron-right"></span><span class="glyphicon glyphicon-chevron-right"></span></a>
+				</li>
+			</ul>
+		</div>
+	</div>
 	</form>
 <?php endif; ?>

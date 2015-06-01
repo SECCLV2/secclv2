@@ -44,7 +44,7 @@ class registroModel extends Model {
 		return $this->querySet($sql, false);
 	}
 
-	public function registroUpdate($id, $idReg, $commit)
+	public function registroUpdate($id, $idReg)
 	{
 		$sql = parent::prepare('UPDATE T_ESTADOS_REG '
 						. "SET EST_REG_ID_REGISTRO = $id "
@@ -59,7 +59,7 @@ class registroModel extends Model {
 			echo '</pre><hr/>';
 		}
 
-		return $this->querySet($sql, $commit);
+		return $this->querySet($sql);
 	}
 
 }
