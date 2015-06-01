@@ -21,25 +21,26 @@ class registroController extends usuariosController {
             $this->redireccionar();
         }
         $this->_view->titulo = 'Registrar Usuario';
-        
+
         $condicion = array('TIP_DOCU_ESTADO' => '1');
         $this->_view->ddlTDocumento = $this->_master->masterSelect('*', 'T_TIPS_DOCS', $condicion);
         var_dump($this->_view->ddlTDocumento);
         $condicion = array('PAIS_ESTADO' => '1');
-        $this->_view->ddlPais = $this->_master->masterSelect('*','T_PAISES', $condicion);
+        $this->_view->ddlPais = $this->_master->masterSelect('*', 'T_PAISES', $condicion);
 
         $condicion = array('GENERO_ESTADO' => '1');
-        $this->_view->ddlGenero = $this->_master->masterSelect('*','T_GENEROS', $condicion);
+        $this->_view->ddlGenero = $this->_master->masterSelect('*', 'T_GENEROS', $condicion);
 
         $condicion = array('TIP_SAN_ESTADO' => '1');
-        $this->_view->ddlGSanguineo = $this->_master->masterSelect('*','T_TIPS_SANGS', $condicion);
+        $this->_view->ddlGSanguineo = $this->_master->masterSelect('*', 'T_TIPS_SANGS', $condicion);
 
         $condicion = array('EST_CIV_ESTADO' => '1');
-        $this->_view->ddlECivil = $this->_master->masterSelect('*','T_EST_CIVILES', $condicion);
+        $this->_view->ddlECivil = $this->_master->masterSelect('*', 'T_EST_CIVILES', $condicion);
 
 
         if ($this->getInt('enviar') == 1)
         {
+
             $this->_view->datos = $_POST;
 
             $parametros['ddlTDocumento'] = array(
@@ -67,7 +68,7 @@ class registroController extends usuariosController {
                 'campo' => 'DOC_NUMERO_DOCUMENTO',
                 'extra' => array(
                     'DOC_TIPO_DOCUMENTO' => $this->getPostParam('ddlTDocumento'),
-                    'DOC_ESTADO' => '1'
+                    'DOC_EST_REG' => '1'
                 )
             );
 
@@ -138,7 +139,7 @@ class registroController extends usuariosController {
                 'table' => 'T_EMAILS',
                 'campo' => 'EMAIL_DIRECCION',
                 'extra' => array(
-                    'EMAIL_ESTADO' => '1'
+                    'EMAIL_EST_REG' => '1'
                 )
             );
 
@@ -241,14 +242,15 @@ class registroController extends usuariosController {
                 'max' => 20,
                 'min' => 8
             );
-
             $val = $this->validar($parametros);
+
             if ($val != 1)
             {
                 $this->_view->_error = $val;
                 $this->_view->renderizar('registrar', 'registrarse');
                 exit;
             }
+
 
             if ($this->getPostParam('txtPassword') != $this->getPostParam('txtConfirmar'))
             {
@@ -264,6 +266,14 @@ class registroController extends usuariosController {
             $transac = $this->_master->transac();
             if ($transac)
             {
+                $campos = array(
+                    'EST_REG_TIP_EST' => 3,
+                    'EST_REG_DESCRIPCION' => 'INSERT - Registrar nuevo usuario',
+                    'EST_REG_TABLA' => 1
+                );
+
+                $idEstado = $this->_reg->registroInsert($campos);
+
                 $campos['T_USUARIOS'] = array(
                     'USU_NOMBRE' => $this->getPostParam('txtNombre'),
                     'USU_PRIMER_APELLIDO' => $this->getPostParam('txtPApellido'),
@@ -275,9 +285,10 @@ class registroController extends usuariosController {
                     'USU_ESTADO_CIVIL' => $this->getPostParam('ddlECivil'),
                     'USU_NICK_NAME' => $this->getPostParam('txtNickName'),
                     'USU_PASSWORD' => Hash::getHash($this->getPostParam('txtPassword')),
-                    'USU_ESTADO' => "0",
+                    'USU_EST_REG' => "$idEstado",
                     'USU_FECHA_NACIMIENTO' => $this->getPostParam('txtFNacimiento')
                 );
+
                 $T_USUARIOS = $this->_master->masterInsert(false, 'T_USUARIOS', $campos['T_USUARIOS'], 'USU_ID');
 
                 $campos['T_DOCUMENTS'] = array(
@@ -286,7 +297,7 @@ class registroController extends usuariosController {
                     'DOC_TIPO_DOCUMENTO' => $this->getPostParam('ddlTDocumento'),
                     'DOC_LUGAR_EXPEDICION' => $this->getPostParam('txtLExpedicion'),
                     'DOC_RUTA_ACRCHIVO' => '0',
-                    'DOC_ESTADO' => 1
+                    'DOC_EST_REG' => 1
                 );
                 $T_DOCUMENTS = $this->_master->masterInsert(false, 'T_DOCUMENTS', $campos['T_DOCUMENTS'], 'DOC_ID');
 
@@ -294,16 +305,18 @@ class registroController extends usuariosController {
                     'EMAIL_ID_USUARIO' => $T_USUARIOS,
                     'EMAIL_DIRECCION' => $this->getPostParam('txtEmail'),
                     'EMAIL_TIPO_EMAIL' => 1,
-                    'EMAIL_ESTADO' => 1
+                    'EMAIL_EST_REG' => 1
                 );
                 $T_EMAILS = $this->_master->masterInsert(false, 'T_EMAILS', $campos['T_EMAILS'], 'EMAIL_ID');
 
                 $campos['T_CUENTAS'] = array(
                     'CUENTA_ID_USUARIO' => $T_USUARIOS,
                     'CUENTA_ID_ROL' => 3,
-                    'CUENTA_ESTADO' => 1
+                    'CUENTA_EST_REG' => 1
                 );
                 $T_CUENTAS = $this->_master->masterInsert(true, 'T_CUENTAS', $campos['T_CUENTAS'], 'CUENTA_ID');
+                
+                $this->_reg->registroUpdate($T_CUENTAS, $idEstado);
             }
             else
             {
@@ -361,7 +374,7 @@ class registroController extends usuariosController {
             $this->_view->renderizar('activar', 'registrarse');
             exit;
         }
-        else if ($val['USU_ESTADO'][0] != 0)
+        else if ($val['USU_EST_REG'][0] != 0)
         {
             $this->_view->_error = 'Esta cuenta ya se encuentra activada';
             $this->_view->renderizar('activar', 'registrarse');
@@ -372,7 +385,7 @@ class registroController extends usuariosController {
         if ($transac)
         {
             $campos['T_USUARIOS'] = array(
-                'USU_ESTADO' => 1
+                'USU_EST_REG' => 1
             );
             $condicion = array('USU_ID' => $id);
             $T_USUARIOS = $this->_master->masterUpdate(true, 'T_USUARIOS', $campos['T_USUARIOS'], $condicion, 'USU_ID');
@@ -384,7 +397,7 @@ class registroController extends usuariosController {
 
         $condicion = array('USU_ID' => $T_USUARIOS);
         $val = $this->_master->masterSelect('T_USUARIOS', $condicion);
-        if ($val['numRows'] == 1 && $val['USU_ESTADO'][0] == 0)
+        if ($val['numRows'] == 1 && $val['USU_EST_REG'][0] == 0)
         {
             $this->_view->_error = 'Error al activar la cuenta, por favor intentelo mas tarde';
             $this->_view->renderizar('activar', 'registrarse');

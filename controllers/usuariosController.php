@@ -11,11 +11,13 @@
 class usuariosController extends Controller {
 
 	protected $_master;
+        protected $_registro;
 
-	public function __construct()
+        public function __construct()
 	{
 		parent::__construct();
 		$this->_master = $this->loadModel('master');
+		$this->_reg = $this->loadModel('registro');
 	}
 
 	public function index(){}

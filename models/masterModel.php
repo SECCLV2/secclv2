@@ -23,7 +23,6 @@ class masterModel extends Model {
 
 	public function masterSelect($campos, $table, array $condiciones = array(), $extra = '')
 	{
-            
 		if (is_array($campos))
 		{
 			foreach ($campos as $key => $value)

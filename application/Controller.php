@@ -436,14 +436,18 @@ abstract class Controller {
 				}
 				else
 				{
+                                    
 					if ($valueResult != 1)
 						if (array_key_exists('mensaje', ${$array[$i]}))
 							return ${$array[$i]}['mensaje'] . ' ' . $valueResult;
 						else
 							return $valueResult;
 				}
+                                
 			}
+                        
 		}
+                
 		return 1;
 	}
 
