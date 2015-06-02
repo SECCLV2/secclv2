@@ -271,8 +271,7 @@ class registroController extends usuariosController {
                     'EST_REG_DESCRIPCION' => 'INSERT - Registrar nuevo usuario',
                     'EST_REG_TABLA' => 1
                 );
-
-                $idEstado = $this->_reg->registroInsert($campos,0);
+                $idEstado['T_USUARIOS']= $this->_reg->registroInsert($campos,0);
 
                 $campos['T_USUARIOS'] = array(
                     'USU_NOMBRE' => $this->getPostParam('txtNombre'),
@@ -285,38 +284,64 @@ class registroController extends usuariosController {
                     'USU_ESTADO_CIVIL' => $this->getPostParam('ddlECivil'),
                     'USU_NICK_NAME' => $this->getPostParam('txtNickName'),
                     'USU_PASSWORD' => Hash::getHash($this->getPostParam('txtPassword')),
-                    'USU_EST_REG' => "$idEstado",
+                    'USU_EST_REG' => $idEstado['T_USUARIOS'],
                     'USU_FECHA_NACIMIENTO' => $this->getPostParam('txtFNacimiento')
                 );
-
                 $T_USUARIOS = $this->_master->masterInsert(false, 'T_USUARIOS', $campos['T_USUARIOS'], 'USU_ID');
-
+                
+                $this->_reg->registroUpdate($T_USUARIOS, $idEstado['T_USUARIOS']);
+                
+                $campos = array(
+                    'EST_REG_TIP_EST' => 3,
+                    'EST_REG_DESCRIPCION' => 'INSERT - Registrar nuevo documento para el usuario' . $T_USUARIOS,
+                    'EST_REG_TABLA' => 7
+                );
+                $idEstado['T_DOCUMENTS'] = $this->_reg->registroInsert($campos,0);
+                
                 $campos['T_DOCUMENTS'] = array(
                     'DOC_ID_USUARIO' => $T_USUARIOS,
                     'DOC_NUMERO_DOCUMENTO' => $this->getPostParam('txtDocumento'),
                     'DOC_TIPO_DOCUMENTO' => $this->getPostParam('ddlTDocumento'),
                     'DOC_LUGAR_EXPEDICION' => $this->getPostParam('txtLExpedicion'),
                     'DOC_RUTA_ACRCHIVO' => '0',
-                    'DOC_EST_REG' => 1
+                    'DOC_EST_REG' => $idEstado['T_DOCUMENTS']
                 );
                 $T_DOCUMENTS = $this->_master->masterInsert(false, 'T_DOCUMENTS', $campos['T_DOCUMENTS'], 'DOC_ID');
-
+                
+                $this->_reg->registroUpdate($T_DOCUMENTS, $idEstado['T_DOCUMENTS']);
+                
+                $campos = array(
+                    'EST_REG_TIP_EST' => 3,
+                    'EST_REG_DESCRIPCION' => 'INSERT - Registrar nuevo email para el usuario' . $T_USUARIOS,
+                    'EST_REG_TABLA' => 8
+                );
+                $idEstado['T_EMAILS'] = $this->_reg->registroInsert($campos,0);
+                
                 $campos['T_EMAILS'] = array(
                     'EMAIL_ID_USUARIO' => $T_USUARIOS,
                     'EMAIL_DIRECCION' => $this->getPostParam('txtEmail'),
                     'EMAIL_TIPO_EMAIL' => 1,
-                    'EMAIL_EST_REG' => 1
+                    'EMAIL_EST_REG' => $idEstado['T_EMAILS']
                 );
                 $T_EMAILS = $this->_master->masterInsert(false, 'T_EMAILS', $campos['T_EMAILS'], 'EMAIL_ID');
-
+                
+                $this->_reg->registroUpdate($T_EMAILS, $idEstado['T_EMAILS']);
+                
+                $campos = array(
+                    'EST_REG_TIP_EST' => 3,
+                    'EST_REG_DESCRIPCION' => 'INSERT - Registrar nueva cuenta para el usuario' . $T_USUARIOS,
+                    'EST_REG_TABLA' => 4
+                );
+                $idEstado['T_CUENTAS'] = $this->_reg->registroInsert($campos,0);
+                
                 $campos['T_CUENTAS'] = array(
                     'CUENTA_ID_USUARIO' => $T_USUARIOS,
                     'CUENTA_ID_ROL' => 3,
-                    'CUENTA_EST_REG' => 1
+                    'CUENTA_EST_REG' => $idEstado['T_CUENTAS']
                 );
                 $T_CUENTAS = $this->_master->masterInsert(true, 'T_CUENTAS', $campos['T_CUENTAS'], 'CUENTA_ID');
                 
-                $this->_reg->registroUpdate($T_CUENTAS, $idEstado);
+                $this->_reg->registroUpdate($T_CUENTAS, $idEstado['T_CUENTAS']);
             }
             else
             {
