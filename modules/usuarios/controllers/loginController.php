@@ -13,6 +13,7 @@ class loginController extends usuariosController {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->_bdLogin = $this->loadModel('login','usuarios');
 	}
 
 	public function login()
@@ -57,21 +58,14 @@ class loginController extends usuariosController {
 			$txtUsuario = $this->getPostParam('txtUsuario');
 			$txtPassword = $this->getPostParam('txtPassword');
 
-			$tablas = 'T_USUARIOS USU '
-					. 'INNER JOIN T_ESTADOS_REG ESR'
-					. ' ON ESR.EST_REG_ID = USU.USU_EST_REG';
-			$condicion = array(
-				'USU.USU_NICK_NAME' => $txtUsuario,
-				'ESR.EST_REG_TIP_EST' => 1
-			);
-			$T_USUARIOS = $this->_master->masterSelect('*', $tablas, $condicion);
+			$T_USUARIOS = $this->_bdLogin->login($txtUsuario);
 			if ($T_USUARIOS['numRows'] != 1)
 			{
 				$this->_view->_error = 'Usuario y/o contraseña incorrectos';
 				$this->_view->renderizar('login', 'registro');
 				exit;
 			}
-			else if (!Hash::verificarPassword($txtPassword, $T_USUARIOS['USU_PASSWORD'][0]))
+			else if (!Hash::verificarPassword($txtPassword, $T_USUARIOS['USU_CLAVE'][0]))
 			{
 				$this->_view->_error = 'Usuario y/o contraseña incorrectos';
 				$this->_view->renderizar('login', 'login');
@@ -79,29 +73,14 @@ class loginController extends usuariosController {
 			}
 
 
-			if ($T_USUARIOS['EST_REG_TIP_EST'][0] != 1)
+			if ($T_USUARIOS['HIST_EST_ID_ESTADO'][0] != 1)
 			{
 				$this->_view->_error = 'Este usuario se encuentra inhabilitado';
 				$this->_view->renderizar('login', 'login');
 				exit;
 			}
 
-			$campos = array(
-				0 => 'CUE.CUENTA_ID_ROL',
-				1 => 'ROL.ROL_DESCRIPCION',
-				'DISTINCT' => true
-			);
-			$tablas = 'T_CUENTAS CUE '
-					. 'INNER JOIN T_ROLES ROL'
-					. ' ON ROL.ROL_ID = CUE.CUENTA_ID_ROL '
-					. 'INNER JOIN T_ESTADOS_REG ESR'
-					. ' ON ESR.EST_REG_ID = CUE.CUENTA_EST_REG';
-			$condiciones = array(
-				'CUE.CUENTA_ID_USUARIO' => $T_USUARIOS['USU_ID'][0],
-				'ESR.EST_REG_TIP_EST' => 1
-			);
-			$extra = 'ORDER BY CUE.CUENTA_ID_ROL ASC';
-			$T_CUENTAS = $this->_master->masterSelect($campos, $tablas, $condiciones, $extra);
+			$T_CUENTAS = $this->_bdLogin->iniciarSesion($T_USUARIOS['USU_ID'][0]);
 
 			Session::set('logueado', true);
 			Session::set('menu', 0);

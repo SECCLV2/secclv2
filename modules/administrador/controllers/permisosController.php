@@ -20,7 +20,7 @@ class permisosController extends administradorController {
 	public function permisos($pagina)
 	{
 		if (Session::get('logueado'))
-			$this->_acl->acceso('ACCES_PERMISO', false, '5050');
+			$this->_acl->acceso('ACCES_PERMISO', true, '5050');
 		else
 			$this->redireccionar();
 

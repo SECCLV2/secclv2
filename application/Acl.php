@@ -39,7 +39,7 @@ class Acl {
 			$this->_rol = 0;
 		}
 
-		$this->_db = new Model();
+		$this->_db = new applicationModel();
 		if ($this->_id != 0 && $this->_rol != 0)
 		{
 			$this->_permRol = $this->getPermisosRol();
@@ -65,18 +65,9 @@ class Acl {
 
 	public function getPermisosRol()
 	{
-		for ($i = 0; $i < count($this->_rol['CUENTA_ID_ROL']); $i++)
+		for ($i = 0; $i < count($this->_rol['USU_ROL_ID_ROL']); $i++)
 		{
-			$permisos[$this->_rol['ROL_DESCRIPCION'][$i]] = $this->_db->masterEspecial(
-					'SELECT * '
-					. 'FROM T_PERMI_ROLES PR '
-					. 'INNER JOIN T_PERMISOS TP'
-					. ' ON TP.PERMISO_ID = PR.PERMROL_ID_PERMISO '
-					. 'INNER JOIN T_ESTADOS_REG ESR'
-					. ' ON ESR.EST_REG_ID = PR.PERMROL_EST_REG '
-					. "WHERE PR.PERMROL_ID_ROL = '{$this->_rol['CUENTA_ID_ROL'][$i]}'"
-					. ' AND ESR.EST_REG_TIP_EST = 1'
-			);
+			$permisos[$this->_rol['ROL_DESCRIPCION'][$i]] = $this->_db->AclGetPermisosRol($this->_rol['USU_ROL_ID_ROL'][$i]);
 		}
 
 		return $permisos;
@@ -88,16 +79,7 @@ class Acl {
 
 	public function getPermisosUsuario()
 	{
-		$permisos = $this->_db->masterEspecial(
-				'SELECT * '
-				. 'FROM T_PERMI_USUS PU '
-				. 'INNER JOIN T_PERMISOS TP'
-				. ' ON TP.PERMISO_ID = PU.PERMUSU_ID_PERMISO '
-				. 'INNER JOIN T_ESTADOS_REG ESR'
-				. ' ON ESR.EST_REG_ID = PU.PERMUSU_EST_REG '
-				. "WHERE PU.PERMUSU_ID_USUARIO = '{$this->_id}'"
-				. ' AND ESR.EST_REG_TIP_EST = 1'
-		);
+		$permisos = $this->_db->AclGetPermisosUsuario($this->_id);
 
 		return $permisos;
 	}
@@ -113,22 +95,35 @@ class Acl {
 			echo '<pre>';
 			echo 'ACL / Acceso - Rol Actual:';
 			var_dump(Session::get('nomRol'));
-			echo '<hr>';
-			echo '<hr>';
 			echo '</pre>';
 		}
-		
+
 		if (isset($this->_permRol[Session::get('nomRol')]['PERMISO_KEY']))
 			$permRol = array_search($key, $this->_permRol[Session::get('nomRol')]['PERMISO_KEY']);
+
+		if (PRUEBAS_ACL)
+		{
+			echo '<pre>';
+			echo 'ACL / Acceso - Permiso en rol:';
+			var_dump($permRol);
+			echo '</pre>';
+		}
 
 		if (isset($this->_permUsu['PERMISO_KEY']))
 			$permUsu = array_search($key, $this->_permUsu['PERMISO_KEY']);
 
-		if (isset($permRol) && $permRol && ($this->_permRol[Session::get('nomRol')]['EST_REG_TIP_EST'][$permRol] == 1))
+		if (PRUEBAS_ACL)
+		{
+			echo '<pre>';
+			echo 'ACL / Acceso - Permiso en usuario:';
+			var_dump($permUsu);
+			echo '</pre>';
+		}
+
+		if (isset($permRol) && is_int($permRol) && $this->_permRol[Session::get('nomRol')]['HIST_EST_ID_ESTADO'][$permRol] == 1)
 			return true;
 
-		if (isset($permUsu) && $permUsu && ($this->_permUsu['PERMISO_ESTADO'][$permUsu] == 1 &&
-				$this->_permUsu['PERMUSU_ESTADO'][$permUsu] == 1))
+		if (isset($permUsu) && is_int($permUsu) && $this->_permUsu['PERMISO_ESTADO'][$permUsu] == 1)
 			return true;
 
 		if ($error)

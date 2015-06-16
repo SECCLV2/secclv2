@@ -17,7 +17,7 @@ class indexController extends Controller {
 	public function index()
 	{
 		$this->_view->titulo = 'Portada';
-		$this->_view->widget = $this->_view->setWidget('menuRol', 'menu', 'hola');
+//		$this->_view->widget = $this->_view->setWidget('menuRol', 'menu', 'hola');
 
 		if (Session::get('logueado'))
 		{
@@ -75,7 +75,7 @@ class indexController extends Controller {
 		{
 			Session::set('rolAct', $rol);
 			Session::set('cenAct', $centro);
-			$key = array_search($rol, Session::get('rol')['CUENTA_ID_ROL']);
+			$key = array_search($rol, Session::get('rol')['USU_ROL_ID_ROL']);
 			Session::set('nomRol', Session::get('rol')['ROL_DESCRIPCION'][$key]);
 			switch ($rol)
 			{
