@@ -9,11 +9,13 @@ class ddlWidget extends Widget {
 		$this->_modelo = $this->loadModel('ddl');
 	}
 
-	public function cargar($nombreCampo, $nombreDdl, $tabla, $campo)
+	public function cargar($nombreCampo, $nombreDdl, $tabla, $campo, $value, $texto)
 	{
 		$datos['datos'] = $this->_modelo->cargar($tabla,$campo);
 		$datos['nombreCampo'] = $nombreCampo;
 		$datos['nombreDdl'] = $nombreDdl;
+		$datos['value'] = $value;
+		$datos['texto'] = $texto;
 		return $this->render('ddl', $datos);
 	}
 
