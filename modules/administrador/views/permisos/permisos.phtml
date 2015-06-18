@@ -1,6 +1,6 @@
 <h4>Insertar Nuevo Permiso</h4>
 <br>
-<?php //if ($this->_acl->acceso('INSERT_PERMISO', false)): ?>
+<?php if ($this->_acl->acceso('INSERT_PERMISO', false)): ?>
 <form name="frmIPermiso" method="post" class="form-inline" role="form">
     <input type="hidden" value="1" name="enviar"/>
     <div class="form-group">
@@ -18,7 +18,7 @@
         <button type="submit" class="btn btn-search glyphicon glyphicon-floppy-disk"></button>
     </div>
 </form>
-<?php //endif; ?>
+<?php endif; ?>
 <br/>
 <?php if (isset($this->permisos) && $this->permisos['numRows'] > 0): ?>
 	<form class="form-inline frmPaginador" role="form" name="frmIPermiso" method="post">

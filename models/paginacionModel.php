@@ -65,7 +65,7 @@ class paginacionModel extends Model {
 						. "$filtro "
 						. "$extra[otros]");
 
-		if (PRUEBAS_BD == 'On')
+		if (PRUEBAS_PAGINADOR)
 		{
 			echo '<pre>';
 			echo 'Paginador Count: <br/>';
@@ -91,11 +91,6 @@ class paginacionModel extends Model {
 
 		$pagina *= $numRows;
 		$numRows = ($pagina - $numRows) + 1;
-
-//		$num = $count['REGISTROS'][0] / $numRows;
-//		$numRowsF = ($count['REGISTROS'][0] - ((int) $num * $numRows));
-//		if (($pagina / $numRows) == ((int) $num + 1))
-//			$numRows = $numRowsF;
 
 		if (key_exists('condiciones', $extra) && !empty($extra['condiciones']))
 		{
@@ -153,7 +148,6 @@ class paginacionModel extends Model {
 			}
 		}
 
-
 		$sql = parent::prepare('SELECT * FROM '
 						. '(SELECT TAB.*,ROWNUM R FROM'
 						. "	 (SELECT $campos"
@@ -164,7 +158,7 @@ class paginacionModel extends Model {
 						. "	 $order[0])TAB)"
 						. " WHERE R BETWEEN $numRows AND $pagina");
 
-		if (PRUEBAS_BD == 'On')
+		if (PRUEBAS_PAGINADOR)
 		{
 			echo '<pre>';
 			echo 'Paginador Select: <br/>';

@@ -16,8 +16,6 @@ class usuariosController extends Controller {
         public function __construct()
 	{
 		parent::__construct();
-		$this->_master = $this->loadModel('master');
-		$this->_reg = $this->loadModel('registro');
 	}
 
 	public function index(){}
