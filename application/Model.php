@@ -59,7 +59,7 @@ abstract class Model extends PDO {
 		
 		if (isset($condiciones) && (!is_string($condiciones) || empty($condiciones)))
 			return array('condiciones' => false);
-		else
+		else if (!isset($condiciones))
 			$condiciones = '';
 		
 		if (isset($extra) && (!is_string($extra) || empty($extra)))

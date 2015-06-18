@@ -21,25 +21,19 @@ class registroController extends usuariosController {
             $this->redireccionar();
         }
         $this->_view->titulo = 'Registrar Usuario';
-		
-		$this->_view->ddlTDocumento = $this->_view->setWidget('ddl','cargar', array('Tipo de Documento','TDocumento','T_TIPOS_DOCS','TIP_DOCU_ID_ESTADO','TIP_DOCU_ID','TIP_DOCU_NOMBRE'));
+
+        $this->_view->ddlTDocumento = $this->_view->setWidget('ddl', 'cargar', array('Tipo de Documento', 'TDocumento', 'T_TIPOS_DOCS', 'TIP_DOCU_ID_ESTADO', 'TIP_DOCU_ID', 'TIP_DOCU_NOMBRE'));
         
-//        $condicion = array('TIP_DOCU_ESTADO' => '1');
-//        $this->_view->ddlTDocumento = $this->_master->masterSelect('*', 'T_TIPS_DOCS', $condicion);
-//
-//		$condicion = array('PAIS_ESTADO' => '1');
-//        $this->_view->ddlPais = $this->_master->masterSelect('*','T_PAISES', $condicion);
-//
-//        $condicion = array('GENERO_ESTADO' => '1');
-//        $this->_view->ddlGenero = $this->_master->masterSelect('*','T_GENEROS', $condicion);
-//
-//        $condicion = array('TIP_SAN_ESTADO' => '1');
-//        $this->_view->ddlGSanguineo = $this->_master->masterSelect('*','T_TIPS_SANGS', $condicion);
-//
-//        $condicion = array('EST_CIV_ESTADO' => '1');
-//        $this->_view->ddlECivil = $this->_master->masterSelect('*','T_EST_CIVILES', $condicion);
+        $this->_view->ddlPNacimiento = $this->_view->setWidget('ddl', 'cargar', array('Pais de Nacimiento', 'PNacimiento', 'T_PAISES', 'PAIS_ID_ESTADO', 'PAIS_ID', 'PAIS_NOMBRE'));
 
-
+        $this->_view->ddlNacionalidad = $this->_view->setWidget('ddl', 'cargar', array('Nacionalidad', 'Nacionalidad', 'T_PAISES', 'PAIS_ID_ESTADO', 'PAIS_ID', 'PAIS_NOMBRE'));
+        
+        $this->_view->ddlGenero = $this->_view->setWidget('ddl', 'cargar', array('Género', 'Genero', 'T_GENEROS', 'GENERO_ID_ESTADO', 'GENERO_ID', 'GENERO_DESCRIPCION'));
+        
+        $this->_view->ddlGSanguineo = $this->_view->setWidget('ddl', 'cargar', array('Grupo Sanguineo', 'GSanguineo', 'T_TIPOS_SANGS', 'TIP_SAN_ID_ESTADO', 'TIP_SAN_ID', 'TIP_SAN_DESCRIPCION'));
+        
+        $this->_view->ddlECivil = $this->_view->setWidget('ddl', 'cargar', array('Estado Civil', 'ECivil', 'T_EST_CIVILES', 'EST_CIV_ID_ESTADO', 'EST_CIV_ID', 'EST_CIV_NOMBRE'));
+        
         if ($this->getInt('enviar') == 1)
         {
             $this->_view->datos = $_POST;
