@@ -17,17 +17,12 @@ class paginacionModel extends Model {
 
 	public function count($table, array $filtros = array(), array $extra = array())
 	{
-		echo '<pre>';
-		echo 'Count extra: <br/>';
-		print_r($extra);
-		echo '</pre><hr/>';
-
 		if (!key_exists('condiciones', $extra))
-			$extra['condiciones'] = '';
+			$extra['condiciones'] = false;
 		if (!key_exists('otros', $extra))
 			$extra['otros'] = '';
 
-		if (key_exists('condiciones', $extra) && !empty($extra['condiciones']))
+		if ($extra['condiciones'])
 		{
 			$arrayCondicion = array_keys($extra['condiciones']);
 			$condicion = 'WHERE ';
@@ -70,7 +65,7 @@ class paginacionModel extends Model {
 						. "$filtro "
 						. "$extra[otros]");
 
-		if (PRUEBAS_BD == 'On')
+		if (PRUEBAS_PAGINADOR)
 		{
 			echo '<pre>';
 			echo 'Paginador Count: <br/>';
@@ -95,11 +90,7 @@ class paginacionModel extends Model {
 			$extra['sentido'] = '';
 
 		$pagina *= $numRows;
-
-		$num = $count['REGISTROS'][0] / $numRows;
-		$numRowsF = ($count['REGISTROS'][0] - ((int) $num * $numRows));
-		if (($pagina / $numRows) == ((int) $num + 1))
-			$numRows = $numRowsF;
+		$numRows = ($pagina - $numRows) + 1;
 
 		if (key_exists('condiciones', $extra) && !empty($extra['condiciones']))
 		{
@@ -157,21 +148,17 @@ class paginacionModel extends Model {
 			}
 		}
 
-
-		$sql = parent::prepare('SELECT * FROM'
-						. '	(SELECT * FROM'
+		$sql = parent::prepare('SELECT * FROM '
+						. '(SELECT TAB.*,ROWNUM R FROM'
 						. "	 (SELECT $campos"
 						. "	 FROM $table"
 						. "	 $condicion"
 						. "  $extra[otros]"
 						. "  $filtro"
-						. "	 $order[0])"
-						. " WHERE ROWNUM <= $pagina"
-						. "	$order[1])"
-						. "WHERE ROWNUM <= $numRows "
-						. "$order[0]");
+						. "	 $order[0])TAB)"
+						. " WHERE R BETWEEN $numRows AND $pagina");
 
-		if (PRUEBAS_BD == 'On')
+		if (PRUEBAS_PAGINADOR)
 		{
 			echo '<pre>';
 			echo 'Paginador Select: <br/>';

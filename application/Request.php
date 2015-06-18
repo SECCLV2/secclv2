@@ -22,7 +22,7 @@ class Request {
 			$url = Hash::urlDecrypt($url);
 			$url = filter_var($url, FILTER_SANITIZE_URL);
 
-			if (PRUEBAS_RUTAS == 'On')
+			if (PRUEBAS_RUTAS)
 			{
 				echo BASE_URL.$url;
 				echo '<hr/>';

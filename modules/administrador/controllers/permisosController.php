@@ -19,17 +19,16 @@ class permisosController extends administradorController {
 
 	public function permisos($pagina)
 	{
-//		if (Session::get('logueado'))
-//			$this->_acl->acceso('ACCES_PERMISO', true, '5050');
-//		else
-//			$this->redireccionar();
+		if (Session::get('logueado'))
+			$this->_acl->acceso('ACCES_PERMISO', true, '5050');
+		else
+			$this->redireccionar();
 
 		$this->_view->titulo = 'Gestionar Permisos';
-		$this->_view->setPlugins($plugins = array('jquery', 'pagPost'));
-
+		$this->_view->setPlugins($plugins = array('pagPost', 'chk_switch'));
 		if ($this->getInt('enviar') == 1)
 		{
-//			$this->_acl->acceso('INSERT_PERMISO', true, '5050');
+			$this->_acl->acceso('INSERT_PERMISO', true, '5050');
 			$this->registrar();
 		}
 		else if ($this->getInt('enviar') == 'hola')
@@ -105,11 +104,11 @@ class permisosController extends administradorController {
 		}
 
 		if (is_int($T_PERMISOS))
-			$T_ESTADOS_REG = $this->_reg->registroUpdate($T_PERMISOS, $idEstado, false);
+			$T_ESTADOS_REG = $this->_reg->registroUpdate($T_PERMISOS, $idEstado);
 
 		if (!is_int($idEstado) || !is_int($T_PERMISOS) || !is_int($T_ESTADOS_REG))
 		{
-			$this->_view->_error = 'Error al registrar el usuario';
+			$this->_view->_error = 'Error al registrar el nuevo permiso';
 			$this->_view->renderizar('permisos', 'permisos', 'login');
 			exit;
 		}
@@ -126,7 +125,7 @@ class permisosController extends administradorController {
 			$this->_view->filtros = false;
 			$filtros = array();
 		}
-		else if ($this->getPostParam('enviar') == '2')
+		else if ($this->getPostParam('btnFiltros') == 'filtrar')
 		{
 			$parametros['txtFLlave'] = array(
 				'requerido' => false,
@@ -189,10 +188,12 @@ class permisosController extends administradorController {
 			'campos' => 'PERMISO_ID',
 			'sentido' => 'ASC'
 		);
+		$numFilas = 5;
 		$count = $this->_view->permisos = $this->_pag->count($tablas, $filtros, $extra);
-		$this->_view->permisos = $this->_pag->rownumSelect($tablas, '*', $count, 5, $pagina, $filtros, $extra);
-		$num = $count['REGISTROS'][0] / 5;
-		$this->_view->paginas = round($num, 5, PHP_ROUND_HALF_EVEN);
+		$this->_view->permisos = $this->_pag->rownumSelect($tablas, '*', $count, $numFilas, $pagina, $filtros, $extra);
+		$num = $count['REGISTROS'][0] / $numFilas;
+		$this->_view->registros = $numFilas;
+		$this->_view->paginas = round($num, 99, PHP_ROUND_HALF_EVEN);
 		$this->_view->actual = $pagina;
 	}
 

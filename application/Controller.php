@@ -21,7 +21,7 @@ abstract class Controller {
 	{
 		$this->_acl = new Acl();
 		$this->_request = new Request();
-		$this->_view = new View($this->_request, $this->_acl, $this->loadModel('master'));
+		$this->_view = new View($this->_request, $this->_acl, $this->loadModel('application'));
 	}
 
 	/*
@@ -122,18 +122,38 @@ abstract class Controller {
 
 	protected function getPostParam($clave)
 	{
-		if (array_key_exists($clave, $_POST))
+		if (strpos($clave, '//'))
 		{
-			if (isset($_POST[$clave]) && !empty($_POST[$clave]))
+			$array = explode('//', $clave);
+			if (array_key_exists($array[0], $_POST))
 			{
-				$_POST[$clave] = strip_tags($_POST[$clave]);
-				$_POST[$clave] = htmlspecialchars($_POST[$clave], ENT_QUOTES);
-				return trim($_POST[$clave]);
+				if (isset($_POST[$array[0]][$array[1]]) && !empty($_POST[$array[0]][$array[1]]))
+				{
+					$_POST[$array[0]][$array[1]] = strip_tags($_POST[$array[0]][$array[1]]);
+					$_POST[$array[0]][$array[1]] = htmlspecialchars($_POST[$array[0]][$array[1]], ENT_QUOTES);
+					return trim($_POST[$array[0]][$array[1]]);
+				}
+			}
+			else
+			{
+				return '-1';
 			}
 		}
 		else
 		{
-			return '-1';
+			if (array_key_exists($clave, $_POST))
+			{
+				if (isset($_POST[$clave]) && !empty($_POST[$clave]))
+				{
+					$_POST[$clave] = strip_tags($_POST[$clave]);
+					$_POST[$clave] = htmlspecialchars($_POST[$clave], ENT_QUOTES);
+					return trim($_POST[$clave]);
+				}
+			}
+			else
+			{
+				return '-1';
+			}
 		}
 
 		return 0;
@@ -382,8 +402,7 @@ abstract class Controller {
 						case 'V301':
 							if (array_key_exists('table', ${$array[$i]}) && array_key_exists('campo', ${$array[$i]}))
 							{
-								$condicion = array();
-								$condicion[${$array[$i]}['campo']] = $dato;
+								$condicion .= ${$array[$i]}['campo'] . " = $dato AND ";
 
 								if (array_key_exists('extra', ${$array[$i]}))
 								{
@@ -391,12 +410,12 @@ abstract class Controller {
 
 									for ($e = 1; $e <= count($arrayCondicion); $e++)
 									{
-										$condicion[$arrayCondicion[$e - 1]] = ${$array[$i]}['extra'][$arrayCondicion[$e - 1]];
+										$condicion .= $arrayCondicion[$e - 1] . ' = ' . ${$array[$i]}['extra'][$arrayCondicion[$e - 1]] . ' AND ';
 									}
 								}
 
-								$masterModel = $this->loadModel('master');
-								$resp = $masterModel->masterSelect('*', ${$array[$i]}['table'], $condicion);
+								$masterModel = $this->loadModel('application');
+								$resp = $masterModel->masterSelect(${$array[$i]}['table'], $condicion);
 
 								if ($resp['numRows'] > 0)
 									$result['V301'] = "El valor $dato ya se ecuentra registrado";

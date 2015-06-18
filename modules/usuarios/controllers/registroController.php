@@ -20,23 +20,25 @@ class registroController extends usuariosController {
         {
             $this->redireccionar();
         }
-
-        $condicion = array('TIP_DOCU_ESTADO' => '1');
-        $this->_view->ddlTDocumento = $this->_master->masterSelect('T_TIPOS_DOCS', $condicion);
-
-        $condicion = array('PAIS_ESTADO' => '1');
-        $this->_view->ddlPais = $this->_master->masterSelect('T_PAISES', $condicion);
-
-        $condicion = array('GENERO_ESTADO' => '1');
-        $this->_view->ddlGenero = $this->_master->masterSelect('T_GENEROS', $condicion);
-
-        $condicion = array('TIP_SAN_ESTADO' => '1');
-        $this->_view->ddlGSanguineo = $this->_master->masterSelect('T_TIP_SANGS', $condicion);
-
-        $condicion = array('EST_CIV_ESTADO' => '1');
-        $this->_view->ddlECivil = $this->_master->masterSelect('T_EST_CIVILES', $condicion);
-
         $this->_view->titulo = 'Registrar Usuario';
+		
+		$this->_view->ddlTDocumento = $this->_view->setWidget('ddl','cargar', array('Tipo de Documento','TDocumento','T_TIPOS_DOCS','TIP_DOCU_ID_ESTADO','TIP_DOCU_ID','TIP_DOCU_NOMBRE'));
+        
+//        $condicion = array('TIP_DOCU_ESTADO' => '1');
+//        $this->_view->ddlTDocumento = $this->_master->masterSelect('*', 'T_TIPS_DOCS', $condicion);
+//
+//		$condicion = array('PAIS_ESTADO' => '1');
+//        $this->_view->ddlPais = $this->_master->masterSelect('*','T_PAISES', $condicion);
+//
+//        $condicion = array('GENERO_ESTADO' => '1');
+//        $this->_view->ddlGenero = $this->_master->masterSelect('*','T_GENEROS', $condicion);
+//
+//        $condicion = array('TIP_SAN_ESTADO' => '1');
+//        $this->_view->ddlGSanguineo = $this->_master->masterSelect('*','T_TIPS_SANGS', $condicion);
+//
+//        $condicion = array('EST_CIV_ESTADO' => '1');
+//        $this->_view->ddlECivil = $this->_master->masterSelect('*','T_EST_CIVILES', $condicion);
+
 
         if ($this->getInt('enviar') == 1)
         {

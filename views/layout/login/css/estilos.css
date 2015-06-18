@@ -1,14 +1,32 @@
 .contenido{
-    width: 92%;
+    width: 87%;
     margin: 0 auto;
     margin-top: 3%;
     text-align: justify;
 }
-
 #header {
     padding: 5px;
     background: #01DF01;
 }
 .dropdown:hover > .dropdown-menu{
     display: block;
+}
+.navbar {
+    min-height: 40px;
+}
+.navbar-brand{
+    height: 40px;
+    padding: 12px 20px;
+}
+.porc_general{
+    width: 94%;
+}
+.porcentaje_5{
+    width: 5%;
+}
+.porcentaje_10{
+    width: 10%;
+}
+.tam_cajat{
+    resize: none;
 }
