@@ -59,7 +59,7 @@ class registroController extends usuariosController {
                 'mensaje' => 'Documento:',
                 'max' => 20,
                 'min' => 6,
-                'table' => 'T_DOCUMENTS',
+                'table' => 'T_DOCUMENTOS',
                 'campo' => 'DOC_NUMERO_DOCUMENTO',
                 'extra' => array(
                     'DOC_TIPO_DOCUMENTO' => $this->getPostParam('ddlTDocumento'),
