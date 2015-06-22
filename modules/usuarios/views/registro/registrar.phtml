@@ -38,115 +38,115 @@
     <!--    </div>
         <div class="form-group">-->
     <label>Nacionalidad: </label>
-    <?php if (isset($this->ddlPais) && count($this->ddlPais)): ?>
-        <select name="ddlNacionalidad" class="form-control input-sm">
-            <option value="0">Seleccione...</option>
-            <?php
-            for ($i = 0; $i < $this->ddlPais['numRows']; $i++):
-                if (isset($this->datos['ddlNacionalidad']) &&
-                        $this->datos['ddlNacionalidad'] == $this->ddlPais['PAIS_ID'][$i]):
-                    ?>
-                    <option value="<?php echo $this->ddlPais['PAIS_ID'][$i]; ?>" selected>
-                        <?php echo mb_convert_case($this->ddlPais['PAIS_NOMBRE'][$i], MB_CASE_TITLE, "utf8"); ?>
-                    </option>
-                    <?php
-                else:
-                    ?>
-                    <option value="<?php echo $this->ddlPais['PAIS_ID'][$i]; ?>">
-                        <?php echo mb_convert_case($this->ddlPais['PAIS_NOMBRE'][$i], MB_CASE_TITLE, "utf8"); ?>
-                    </option>
-                <?php
-                endif;
-            endfor;
-            ?>
-        </select>
-    <?php else: ?>
-        <strong>No se encontraron elementos!!!</strong>
-    <?php endif; ?>
+	<?php if (isset($this->ddlPais) && count($this->ddlPais)): ?>
+		<select name="ddlNacionalidad" class="form-control input-sm">
+			<option value="0">Seleccione...</option>
+			<?php
+			for ($i = 0; $i < $this->ddlPais['numRows']; $i++):
+				if (isset($this->datos['ddlNacionalidad']) &&
+						$this->datos['ddlNacionalidad'] == $this->ddlPais['PAIS_ID'][$i]):
+					?>
+					<option value="<?php echo $this->ddlPais['PAIS_ID'][$i]; ?>" selected>
+						<?php echo mb_convert_case($this->ddlPais['PAIS_NOMBRE'][$i], MB_CASE_TITLE, "utf8"); ?>
+					</option>
+					<?php
+				else:
+					?>
+					<option value="<?php echo $this->ddlPais['PAIS_ID'][$i]; ?>">
+						<?php echo mb_convert_case($this->ddlPais['PAIS_NOMBRE'][$i], MB_CASE_TITLE, "utf8"); ?>
+					</option>
+				<?php
+				endif;
+			endfor;
+			?>
+		</select>
+	<?php else: ?>
+		<strong>No se encontraron elementos!!!</strong>
+	<?php endif; ?>
     <!--    </div>
         <div class="form-group">-->
     <label>Genero: </label>
-    <?php if (isset($this->ddlGenero) && count($this->ddlGenero)): ?>
-        <select name="ddlGenero" class="form-control input-sm">
-            <option value="0">Seleccione...</option>
-            <?php
-            for ($i = 0; $i < $this->ddlGenero['numRows']; $i++):
-                if (isset($this->datos['ddlGenero']) &&
-                        $this->datos['ddlGenero'] == $this->ddlGenero['GENERO_ID'][$i]):
-                    ?>
-                    <option value="<?php echo $this->ddlGenero['GENERO_ID'][$i]; ?>" selected>
-                        <?php echo mb_convert_case($this->ddlGenero['GENERO_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
-                    </option>
-                    <?php
-                else:
-                    ?>
-                    <option value="<?php echo $this->ddlGenero['GENERO_ID'][$i]; ?>">
-                        <?php echo mb_convert_case($this->ddlGenero['GENERO_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
-                    </option>
-                <?php
-                endif;
-            endfor;
-            ?>
-        </select>
-    <?php else: ?>
-        <strong>No se encontraron elementos!!!</strong>
-    <?php endif; ?>
+	<?php if (isset($this->ddlGenero) && count($this->ddlGenero)): ?>
+		<select name="ddlGenero" class="form-control input-sm">
+			<option value="0">Seleccione...</option>
+			<?php
+			for ($i = 0; $i < $this->ddlGenero['numRows']; $i++):
+				if (isset($this->datos['ddlGenero']) &&
+						$this->datos['ddlGenero'] == $this->ddlGenero['GENERO_ID'][$i]):
+					?>
+					<option value="<?php echo $this->ddlGenero['GENERO_ID'][$i]; ?>" selected>
+						<?php echo mb_convert_case($this->ddlGenero['GENERO_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
+					</option>
+					<?php
+				else:
+					?>
+					<option value="<?php echo $this->ddlGenero['GENERO_ID'][$i]; ?>">
+						<?php echo mb_convert_case($this->ddlGenero['GENERO_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
+					</option>
+				<?php
+				endif;
+			endfor;
+			?>
+		</select>
+	<?php else: ?>
+		<strong>No se encontraron elementos!!!</strong>
+	<?php endif; ?>
     <!--    </div>
         <div class="form-group">-->
     <label>Grupo Sanguineo: </label>
-    <?php if (isset($this->ddlGSanguineo) && count($this->ddlGSanguineo)): ?>
-        <select name="ddlGSanguineo" class="form-control input-sm">
-            <option value="0">Seleccione...</option>
-            <?php
-            for ($i = 0; $i < $this->ddlGSanguineo['numRows']; $i++):
-                if (isset($this->datos['ddlGSanguineo']) &&
-                        $this->datos['ddlGSanguineo'] == $this->ddlGSanguineo['TIP_SAN_ID'][$i]):
-                    ?>
-                    <option value="<?php echo $this->ddlGSanguineo['TIP_SAN_ID'][$i]; ?>" selected>
-                        <?php echo mb_convert_case($this->ddlGSanguineo['TIP_SAN_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
-                    </option>
-                    <?php
-                else:
-                    ?>
-                    <option value="<?php echo $this->ddlGSanguineo['TIP_SAN_ID'][$i]; ?>">
-                        <?php echo mb_convert_case($this->ddlGSanguineo['TIP_SAN_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
-                    </option>
-                <?php
-                endif;
-            endfor;
-            ?>
-        </select>
-    <?php else: ?>
-        <strong>No se encontraron elementos!!!</strong>
-    <?php endif; ?>
+	<?php if (isset($this->ddlGSanguineo) && count($this->ddlGSanguineo)): ?>
+		<select name="ddlGSanguineo" class="form-control input-sm">
+			<option value="0">Seleccione...</option>
+			<?php
+			for ($i = 0; $i < $this->ddlGSanguineo['numRows']; $i++):
+				if (isset($this->datos['ddlGSanguineo']) &&
+						$this->datos['ddlGSanguineo'] == $this->ddlGSanguineo['TIP_SAN_ID'][$i]):
+					?>
+					<option value="<?php echo $this->ddlGSanguineo['TIP_SAN_ID'][$i]; ?>" selected>
+						<?php echo mb_convert_case($this->ddlGSanguineo['TIP_SAN_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
+					</option>
+					<?php
+				else:
+					?>
+					<option value="<?php echo $this->ddlGSanguineo['TIP_SAN_ID'][$i]; ?>">
+						<?php echo mb_convert_case($this->ddlGSanguineo['TIP_SAN_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
+					</option>
+				<?php
+				endif;
+			endfor;
+			?>
+		</select>
+	<?php else: ?>
+		<strong>No se encontraron elementos!!!</strong>
+	<?php endif; ?>
     <!--    </div>
         <div class="form-group">-->
     <label>Estado Civil: </label>
-    <?php if (isset($this->ddlECivil) && count($this->ddlECivil)): ?>
-        <select name="ddlECivil" class="form-control input-sm">
-            <option value="0">Seleccione...</option>
-            <?php
-            for ($i = 0; $i < $this->ddlECivil['numRows']; $i++):
-                if (isset($this->datos['ddlECivil']) &&
-                        $this->datos['ddlECivil'] == $this->ddlECivil['EST_CIV_ID'][$i]):
-                    ?>
-                    <option value="<?php echo $this->ddlECivil['EST_CIV_ID'][$i]; ?>" selected>
-                        <?php echo mb_convert_case($this->ddlECivil['EST_CIV_NOMBRE'][$i], MB_CASE_TITLE, "utf8"); ?>
-                    </option>
-                    <?php
-                else:
-                    ?>
-                    <option value="<?php echo $this->ddlECivil['EST_CIV_ID'][$i]; ?>">
-                        <?php echo mb_convert_case($this->ddlECivil['EST_CIV_NOMBRE'][$i], MB_CASE_TITLE, "utf8"); ?>
-                    </option>
-                <?php
-                endif;
-            endfor;
-            ?>
-        </select>
-    <?php else: ?>
-        <strong>No se encontraron elementos!!!</strong>
-    <?php endif; ?>
+	<?php if (isset($this->ddlECivil) && count($this->ddlECivil)): ?>
+		<select name="ddlECivil" class="form-control input-sm">
+			<option value="0">Seleccione...</option>
+			<?php
+			for ($i = 0; $i < $this->ddlECivil['numRows']; $i++):
+				if (isset($this->datos['ddlECivil']) &&
+						$this->datos['ddlECivil'] == $this->ddlECivil['EST_CIV_ID'][$i]):
+					?>
+					<option value="<?php echo $this->ddlECivil['EST_CIV_ID'][$i]; ?>" selected>
+						<?php echo mb_convert_case($this->ddlECivil['EST_CIV_NOMBRE'][$i], MB_CASE_TITLE, "utf8"); ?>
+					</option>
+					<?php
+				else:
+					?>
+					<option value="<?php echo $this->ddlECivil['EST_CIV_ID'][$i]; ?>">
+						<?php echo mb_convert_case($this->ddlECivil['EST_CIV_NOMBRE'][$i], MB_CASE_TITLE, "utf8"); ?>
+					</option>
+				<?php
+				endif;
+			endfor;
+			?>
+		</select>
+	<?php else: ?>
+		<strong>No se encontraron elementos!!!</strong>
+	<?php endif; ?>
     <!--    </div>
         <div class="form-group">-->
     <label>Usuario: </label>

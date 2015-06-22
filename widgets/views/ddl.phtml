@@ -1,21 +1,21 @@
 <!--    <div class="form-group">-->
 <label><?php echo $nombreCampo?>: </label>
 <?php if (isset($datos) && count($datos)): ?>
-	<select name="ddlTDocumento" class="form-control input-sm">
+	<select name="ddl<?php echo $nombreDdl; ?>" class="form-control input-sm">
 		<option value="0">Seleccione...</option>
 		<?php
 		for ($i = 0; $i < $datos['numRows']; $i++):
-			if (isset($this->datos['ddlTDocumento']) &&
-					$this->datos['ddlTDocumento'] == $datos['TIP_DOCU_ID'][$i]):
+			if (isset($this->datos['ddl'.$nombreDdl]) &&
+					$this->datos['ddl'.$nombreDdl] == $datos[$value][$i]):
 				?>
-				<option value="<?php echo $datos['TIP_DOCU_ID'][$i]; ?>" selected>
-					<?php echo utf8_encode($datos['TIP_DOCU_NOMBRE'][$i]); ?>
+				<option value="<?php echo $datos[$value][$i]; ?>" selected>
+					<?php echo utf8_encode($datos[$texto][$i]); ?>
 				</option>
 				<?php
 			else:
 				?>
-				<option value="<?php echo $datos['TIP_DOCU_ID'][$i]; ?>">
-					<?php echo utf8_encode($datos['TIP_DOCU_NOMBRE'][$i]); ?>
+				<option value="<?php echo $datos[$value][$i]; ?>">
+					<?php echo utf8_encode($datos[$texto][$i]); ?>
 				</option>
 			<?php
 			endif;

@@ -21,10 +21,9 @@ class registroController extends usuariosController {
             $this->redireccionar();
         }
         $this->_view->titulo = 'Registrar Usuario';
-
-        $this->_view->ddlTDocumento = $this->_view->setWidget('ddl', 'cargar', array('Tipo de Documento', 'TDocumento', 'T_TIPOS_DOCS', 'TIP_DOCU_ID_ESTADO'));
-
-        $this->_view->ddlPNacimiento = $this->_view->setWidget('ddl', 'cargar', array('Pais de Nacimiento', 'PNacimiento', 'T_PAISES', 'PAIS_ID_ESTADO'));
+		
+		$this->_view->ddlTDocumento = $this->_view->setWidget('ddl','cargar', array('Tipo de Documento','TDocumento','T_TIPOS_DOCS','TIP_DOCU_ID_ESTADO','TIP_DOCU_ID','TIP_DOCU_NOMBRE'));
+        
 //        $condicion = array('TIP_DOCU_ESTADO' => '1');
 //        $this->_view->ddlTDocumento = $this->_master->masterSelect('*', 'T_TIPS_DOCS', $condicion);
 //
