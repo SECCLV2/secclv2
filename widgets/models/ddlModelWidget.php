@@ -24,9 +24,9 @@ class ddlModelWidget extends Model {
 		);
 		$resp = $this->masterSelect($select);
 		
-		echo '<pre>';
-		var_dump($resp);
-		echo '</pre>';
+//		echo '<pre>';
+//		var_dump($resp);
+//		echo '</pre>';
 
 		return $resp;
 	}

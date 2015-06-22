@@ -10,7 +10,7 @@
 /*
  * Constantes principales del aplicativo, definen la base de la url y los metodos y controladores por default.
  */
-define('BASE_URL', 'http://localhost/SECCLV2/');
+define('BASE_URL', 'http://localhost:81/SECCLV2/');
 define('DEFAULT_CONTROLLER', 'index');
 define('DEFAULT_LAYOUT', 'default');
 
@@ -51,7 +51,7 @@ define('DB_CHAR', 'utf8');
 define('PRUEBAS', 0);
 define('PRUEBAS_ACL', 0);
 define('PRUEBAS_BD', 0);
-define('PRUEBAS_SELECT', 1);
+define('PRUEBAS_SELECT', 0);
 define('PRUEBAS_INSERT', 0);
 define('PRUEBAS_UPDATE', 0);
 define('PRUEBAS_HIST_EST', 0);

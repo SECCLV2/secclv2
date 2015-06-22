@@ -4,162 +4,47 @@
     <input type="hidden" value="1" name="enviar"/>
 
     <?php echo $ddlTDocumento = (isset($this->ddlTDocumento)) ? $this->ddlTDocumento : 'ddl No encontrado!!!'; ?>
-
-    <!--<div class="form-group">-->
+    
     <label>Documento: </label>
     <input type="text" name="txtDocumento" value="<?php if (isset($this->datos['txtDocumento'])) echo $this->datos['txtDocumento']; ?>" class="form-control"/>
-    <!--    </div>
-        <div class="form-group">-->
+
     <label>Lugar de Expedición: </label>
     <input type="text" name="txtLExpedicion" value="<?php if (isset($this->datos['txtLExpedicion'])) echo $this->datos['txtLExpedicion']; ?>" class="form-control"/>
-    <!--    </div>
-        <div class="form-group">-->
+
     <label>Nombre: </label>
     <input type="text" name="txtNombre" value="<?php if (isset($this->datos['txtNombre'])) echo $this->datos['txtNombre']; ?>" class="form-control"/>
-    <!--    </div>
-        <div class="form-group">-->
+
     <label>Primer Apellido: </label>
     <input type="text" name="txtPApellido" value="<?php if (isset($this->datos['txtPApellido'])) echo $this->datos['txtPApellido']; ?>" class="form-control"/>
-    <!--    </div>
-        <div class="form-group">-->
+
     <label>Segundo Apellido: </label>
     <input type="text" name="txtSApellido" value="<?php if (isset($this->datos['txtSApellido'])) echo $this->datos['txtSApellido']; ?>" class="form-control"/>
-    <!--    </div>
-        <div class="form-group">-->
+
     <label>Correo Electronico: </label>
     <input type="text" name="txtEmail" value="<?php if (isset($this->datos['txtEmail'])) echo $this->datos['txtEmail']; ?>" class="form-control"/>
-    <!--    </div>
-        <div class="form-group">-->
-    <?php echo $ddlPNacimiento = (isset($this->ddlPNacimiento)) ? $this->ddlPNacimiento : 'ddl No encontrado!!!'; ?>
-    <!--    </div>
-        <div class="form-group">-->
+    
+    <?php echo $ddlPNacimiento = (isset($this->ddlPNacimiento)) ? $this->ddlPNacimiento : 'ddl No encontrado!!!'; ?> 
+
     <label>Fecha de Nacimiento: </label>
     <input type="text" name="txtFNacimiento" value="<?php if (isset($this->datos['txtFNacimiento'])) echo $this->datos['txtFNacimiento']; ?>" class="form-control"/>
-    <!--    </div>
-        <div class="form-group">-->
-    <label>Nacionalidad: </label>
-	<?php if (isset($this->ddlPais) && count($this->ddlPais)): ?>
-		<select name="ddlNacionalidad" class="form-control input-sm">
-			<option value="0">Seleccione...</option>
-			<?php
-			for ($i = 0; $i < $this->ddlPais['numRows']; $i++):
-				if (isset($this->datos['ddlNacionalidad']) &&
-						$this->datos['ddlNacionalidad'] == $this->ddlPais['PAIS_ID'][$i]):
-					?>
-					<option value="<?php echo $this->ddlPais['PAIS_ID'][$i]; ?>" selected>
-						<?php echo mb_convert_case($this->ddlPais['PAIS_NOMBRE'][$i], MB_CASE_TITLE, "utf8"); ?>
-					</option>
-					<?php
-				else:
-					?>
-					<option value="<?php echo $this->ddlPais['PAIS_ID'][$i]; ?>">
-						<?php echo mb_convert_case($this->ddlPais['PAIS_NOMBRE'][$i], MB_CASE_TITLE, "utf8"); ?>
-					</option>
-				<?php
-				endif;
-			endfor;
-			?>
-		</select>
-	<?php else: ?>
-		<strong>No se encontraron elementos!!!</strong>
-	<?php endif; ?>
-    <!--    </div>
-        <div class="form-group">-->
-    <label>Genero: </label>
-	<?php if (isset($this->ddlGenero) && count($this->ddlGenero)): ?>
-		<select name="ddlGenero" class="form-control input-sm">
-			<option value="0">Seleccione...</option>
-			<?php
-			for ($i = 0; $i < $this->ddlGenero['numRows']; $i++):
-				if (isset($this->datos['ddlGenero']) &&
-						$this->datos['ddlGenero'] == $this->ddlGenero['GENERO_ID'][$i]):
-					?>
-					<option value="<?php echo $this->ddlGenero['GENERO_ID'][$i]; ?>" selected>
-						<?php echo mb_convert_case($this->ddlGenero['GENERO_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
-					</option>
-					<?php
-				else:
-					?>
-					<option value="<?php echo $this->ddlGenero['GENERO_ID'][$i]; ?>">
-						<?php echo mb_convert_case($this->ddlGenero['GENERO_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
-					</option>
-				<?php
-				endif;
-			endfor;
-			?>
-		</select>
-	<?php else: ?>
-		<strong>No se encontraron elementos!!!</strong>
-	<?php endif; ?>
-    <!--    </div>
-        <div class="form-group">-->
-    <label>Grupo Sanguineo: </label>
-	<?php if (isset($this->ddlGSanguineo) && count($this->ddlGSanguineo)): ?>
-		<select name="ddlGSanguineo" class="form-control input-sm">
-			<option value="0">Seleccione...</option>
-			<?php
-			for ($i = 0; $i < $this->ddlGSanguineo['numRows']; $i++):
-				if (isset($this->datos['ddlGSanguineo']) &&
-						$this->datos['ddlGSanguineo'] == $this->ddlGSanguineo['TIP_SAN_ID'][$i]):
-					?>
-					<option value="<?php echo $this->ddlGSanguineo['TIP_SAN_ID'][$i]; ?>" selected>
-						<?php echo mb_convert_case($this->ddlGSanguineo['TIP_SAN_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
-					</option>
-					<?php
-				else:
-					?>
-					<option value="<?php echo $this->ddlGSanguineo['TIP_SAN_ID'][$i]; ?>">
-						<?php echo mb_convert_case($this->ddlGSanguineo['TIP_SAN_DESCRIPCION'][$i], MB_CASE_TITLE, "utf8"); ?>
-					</option>
-				<?php
-				endif;
-			endfor;
-			?>
-		</select>
-	<?php else: ?>
-		<strong>No se encontraron elementos!!!</strong>
-	<?php endif; ?>
-    <!--    </div>
-        <div class="form-group">-->
-    <label>Estado Civil: </label>
-	<?php if (isset($this->ddlECivil) && count($this->ddlECivil)): ?>
-		<select name="ddlECivil" class="form-control input-sm">
-			<option value="0">Seleccione...</option>
-			<?php
-			for ($i = 0; $i < $this->ddlECivil['numRows']; $i++):
-				if (isset($this->datos['ddlECivil']) &&
-						$this->datos['ddlECivil'] == $this->ddlECivil['EST_CIV_ID'][$i]):
-					?>
-					<option value="<?php echo $this->ddlECivil['EST_CIV_ID'][$i]; ?>" selected>
-						<?php echo mb_convert_case($this->ddlECivil['EST_CIV_NOMBRE'][$i], MB_CASE_TITLE, "utf8"); ?>
-					</option>
-					<?php
-				else:
-					?>
-					<option value="<?php echo $this->ddlECivil['EST_CIV_ID'][$i]; ?>">
-						<?php echo mb_convert_case($this->ddlECivil['EST_CIV_NOMBRE'][$i], MB_CASE_TITLE, "utf8"); ?>
-					</option>
-				<?php
-				endif;
-			endfor;
-			?>
-		</select>
-	<?php else: ?>
-		<strong>No se encontraron elementos!!!</strong>
-	<?php endif; ?>
-    <!--    </div>
-        <div class="form-group">-->
+    
+    <?php echo $ddlNacionalidad = (isset($this->ddlNacionalidad)) ? $this->ddlNacionalidad : 'ddl No encontrado!!!'; ?> 
+    
+    <?php echo $ddlGenero = (isset($this->ddlGenero)) ? $this->ddlGenero : 'ddl No encontrado!!!'; ?> 
+    
+    <?php echo $ddlGSanguineo = (isset($this->ddlGSanguineo)) ? $this->ddlGSanguineo : 'ddl No encontrado!!!'; ?> 
+    
+    <?php echo $ddlECivil = (isset($this->ddlECivil)) ? $this->ddlECivil : 'ddl No encontrado!!!'; ?> 
+
     <label>Usuario: </label>
     <input type="text" name="txtNickName" value="<?php if (isset($this->datos['txtNickName'])) echo $this->datos['txtNickName']; ?>" class="form-control"/>
-    <!--    </div>
-        <div class="form-group">-->
+
     <label>Contraseña: </label>
     <input type="password" name="txtPassword" class="form-control"/>
-    <!--    </div>
-        <div class="form-group">-->
+ 
     <label>Repita la Contraseña: </label>
     <input type="password" name="txtConfirmar" class="form-control"/>
-    <!--</div>-->
+
     <br>
     <input type="submit" value="Registrar" class="btn btn-warning center-block"/>
 </form>

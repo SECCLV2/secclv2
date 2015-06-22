@@ -264,7 +264,7 @@ class View {
 
         if (is_readable(ROOT . 'widgets' . DS . $widget . '.php'))
         {
-            include ROOT . 'widgets' . DS . $widget . '.php';
+            include_once ROOT . 'widgets' . DS . $widget . '.php';
 
             $widgetClass = $widget . 'Widget';
 			
