@@ -11,300 +11,302 @@
 
 abstract class Model extends PDO {
 
-	/*
-	 * Constructor que crea la conexión a la BD y crea los objetos de las calses de PDO para ser usados.
-	 * este constructor llama al contructor de la padre clase PDO el cual se sencarga de gestionar la conexión a la BD
-	 * y se implementan las constantes de configuración creadas para la BD.
-	 */
+    /*
+     * Constructor que crea la conexión a la BD y crea los objetos de las calses de PDO para ser usados.
+     * este constructor llama al contructor de la padre clase PDO el cual se sencarga de gestionar la conexión a la BD
+     * y se implementan las constantes de configuración creadas para la BD.
+     */
 
-	public function __construct()
-	{
-		parent::__construct("oci:dbname=" . DB_HOST . ';' . DB_CHAR, DB_NAME, DB_PASS);
-	}
+    public function __construct()
+    {
+        parent::__construct("oci:dbname=" . DB_HOST . ';' . DB_CHAR, DB_NAME, DB_PASS);
+    }
 
-	protected function transac()
-	{
-		$this->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
-		return $this->beginTransaction();
-	}
+    protected function transac()
+    {
+        $this->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+        return $this->beginTransaction();
+    }
 
-	protected function exeCommit()
-	{
-		parent::commit();
-	}
+    protected function exeCommit()
+    {
+        parent::commit();
+    }
 
-	protected function exeRollback()
-	{
-		parent::rollBack();
-	}
+    protected function exeRollback()
+    {
+        parent::rollBack();
+    }
 
-	protected function masterSelect(array $select)
-	{
-		if (PRUEBAS_SELECT)
-		{
-			echo '<pre>';
-			echo 'Master Select: <br/><hr/>';
-			echo 'Parametro Select: <br/>';
-			print_r($select);
-			echo '</pre>';
-		}
+    protected function masterSelect(array $select)
+    {
+        if (PRUEBAS_SELECT)
+        {
+            echo '<pre>';
+            echo 'Master Select: <br/><hr/>';
+            echo 'Parametro Select: <br/>';
+            print_r($select);
+            echo '</pre>';
+        }
 
-		extract($select);
-		unset($select);
-		if (!isset($campos) || !is_string($campos) || empty($campos))
-			return array('campos' => false);
-		
-		if (!isset($tablas) || !is_string($tablas) || empty($tablas))
-			return array('tablas' => false);
-		
-		if (isset($condiciones) && (!is_string($condiciones) || empty($condiciones)))
-			return array('condiciones' => false);
-		else if (!isset($condiciones))
-			$condiciones = '';
-		
-		if (isset($extra) && (!is_string($extra) || empty($extra)))
-			return array('extra' => false);
-		else
-			$extra = '';
+        extract($select);
+        unset($select);
+        if (!isset($campos) || !is_string($campos) || empty($campos))
+            return array('campos' => false);
 
-		$select = parent::prepare("SELECT $campos "
-						. "FROM $tablas "
-						. "$condiciones "
-						. "$extra");
+        if (!isset($tablas) || !is_string($tablas) || empty($tablas))
+            return array('tablas' => false);
 
-		if (PRUEBAS_SELECT)
-		{
-			echo '<pre>';
-			echo 'Master Select: <br/><hr/>';
-			echo 'Prepare Select: <br/>';
-			print_r($select);
-			echo '</pre>';
-		}
+        if (isset($condiciones) && (!is_string($condiciones) || empty($condiciones)))
+            return array('condiciones' => false);
+        else if (!isset($condiciones))
+            $condiciones = '';
 
-		return $this->queryGet($select);
-	}
+        if (isset($extra) && (!is_string($extra) || empty($extra)))
+            return array('extra' => false);
+        else
+            $extra = '';
 
-	protected function masterInsert($table, array $valores, $id)
-	{
-		if (!is_string($table) || empty($table))
-			return array('table' => false);
-		if (!is_string($id) || empty($id))
-			return array('id' => false);
+        $select = parent::prepare("SELECT $campos "
+                        . "FROM $tablas "
+                        . "$condiciones "
+                        . "$extra");
 
-		$select = array(
-			'campos' => 'ACC.COLUMN_NAME',
-			'tablas' => 'ALL_COL_COMMENTS  ACC',
-			'condiciones' => "WHERE ACC.TABLE_NAME = '$table' AND ACC.COMMENTS NOT LIKE '%(Trigger)%'"
-		);
+        if (PRUEBAS_SELECT)
+        {
+            echo '<pre>';
+            echo 'Master Select: <br/><hr/>';
+            echo 'Prepare Select: <br/>';
+            print_r($select);
+            echo '</pre>';
+        }
 
-		$resp = $this->masterSelect($select);
+        return $this->queryGet($select);
+    }
 
-		if (PRUEBAS_INSERT)
-		{
-			echo '<pre>';
-			echo 'Master Insert: <br/><hr/>';
-			echo 'Resp Select: <br/>';
-			print_r($resp);
-			echo '</pre>';
-		}
+    protected function masterInsert($table, array $valores, $id)
+    {
+        if (!is_string($table) || empty($table))
+            return array('table' => false);
+        if (!is_string($id) || empty($id))
+            return array('id' => false);
 
-		if (count($valores) != $resp['numRows'])
-			return array('valores' => false);
+        $select = array(
+            'campos' => 'ACC.COLUMN_NAME',
+            'tablas' => 'ALL_COL_COMMENTS  ACC',
+            'condiciones' => "WHERE ACC.TABLE_NAME = '$table' AND ACC.COMMENTS NOT LIKE '%(Trigger)%'"
+        );
 
-		for ($i = 0; $i < $resp['numRows']; $i++)
-		{
-			$campos .= $resp['COLUMN_NAME'][$i] . ',';
-			$valor .= "'$valores[$i]',";
-		}
-		$campos = substr($campos, 0, -1);
-		$valor = substr($valor, 0, -1);
+        $resp = $this->masterSelect($select);
 
-		$insert = parent::prepare("INSERT INTO $table($campos)"
-						. "VALUES ($valor)returning $id into :id");
+        if (PRUEBAS_INSERT)
+        {
+            echo '<pre>';
+            echo 'Master Insert: <br/><hr/>';
+            echo 'Resp Select: <br/>';
+            print_r($resp);
+            echo '</pre>';
+        }
 
-		return $this->querySet($insert);
-	}
+        if (count($valores) != $resp['numRows'])
+            return array('valores' => false);
 
-	protected function masterUpdate(array $update, $id)
-	{
-		if (PRUEBAS_UPDATE)
-		{
-			echo '<pre>';
-			echo 'Master Update: <br/><hr/>';
-			echo 'Parametro Update: <br/>';
-			print_r($update);
-			echo '</pre>';
-		}
+        for ($i = 0; $i < $resp['numRows']; $i++)
+        {
+            $campos .= $resp['COLUMN_NAME'][$i] . ',';
+            $valor .= "'$valores[$i]',";
+        }
+        $campos = substr($campos, 0, -1);
+        $valor = substr($valor, 0, -1);
 
-		extract($update);
-		unset($update);
+        $insert = parent::prepare("INSERT INTO $table($campos)"
+                        . "VALUES ($valor)returning $id into :id");
 
-		if (!isset($valores) || !is_string($valores) || empty($valores))
-			return array('valores' => false);
-		if (!isset($tablas) || !is_string($tablas) || empty($tablas))
-			return array('tablas' => false);
-		if (isset($condiciones) && (!is_string($condiciones) || empty($condiciones)))
-			return array('condiciones' => false);
-		if (!is_string($id) || empty($id))
-			return array('id' => false);
+        return $this->querySet($insert);
+    }
 
-		$update = parent::prepare("UPDATE $tablas "
-						. "SET $valores "
-						. "$condiciones "
-						. "returning $id into :id");
+    protected function masterUpdate(array $update, $id)
+    {
+        if (PRUEBAS_UPDATE)
+        {
+            echo '<pre>';
+            echo 'Master Update: <br/><hr/>';
+            echo 'Parametro Update: <br/>';
+            print_r($update);
+            echo '</pre>';
+        }
 
-		return $this->querySet($sql);
-	}
+        extract($update);
+        unset($update);
 
-	/*
-	 * Función que organiza el resultado de una consulta en un arreglo de dos dimención con la estructura 
-	 * $array['Nombre_Campo']['Registro_Tabla'].
-	 * Recibe como parametro el arreglo a organizar, este arreglo debe estar en el formato
-	 */
+        if (!isset($valores) || !is_string($valores) || empty($valores))
+            return array('valores' => false);
+        if (!isset($tablas) || !is_string($tablas) || empty($tablas))
+            return array('tablas' => false);
+        if (isset($condiciones) && (!is_string($condiciones) || empty($condiciones)))
+            return array('condiciones' => false);
+        if (!is_string($id) || empty($id))
+            return array('id' => false);
 
-	private function organizar($array)
-	{
-		$rows = array();
+        $update = parent::prepare("UPDATE $tablas "
+                        . "SET $valores "
+                        . "$condiciones "
+                        . "returning $id into :id");
 
-		for ($i = 0; $i < count($array); $i++)
-		{
-			foreach ($array[$i] as $key => $value)
-			{
-				$rows[$key][$i] = $value;
-			}
-		}
+        return $this->querySet($sql);
+    }
 
-		$rows = array_filter($rows, function($key) {
-			if (!is_int($key))
-				return $key;
-		}, ARRAY_FILTER_USE_KEY);
+    /*
+     * Función que organiza el resultado de una consulta en un arreglo de dos dimención con la estructura 
+     * $array['Nombre_Campo']['Registro_Tabla'].
+     * Recibe como parametro el arreglo a organizar, este arreglo debe estar en el formato
+     */
 
-		return $rows;
-	}
+    private function organizar($array)
+    {
+        $rows = array();
 
-	/*
-	 * Función que ejecuta una consulta de tipo SELECT y retorna organizado el resultado.
-	 */
+        for ($i = 0; $i < count($array); $i++)
+        {
+            foreach ($array[$i] as $key => $value)
+            {
+                $rows[$key][$i] = $value;
+            }
+        }
 
-	private function queryGet($statement)
-	{
-		if ($statement)
-		{
-			$resp = $statement->execute();
-			$rows = $statement->fetchAll();
+        $rows = array_filter($rows, function($key) {
+            if (!is_int($key))
+                return $key;
+        }, ARRAY_FILTER_USE_KEY);
 
-			if ($resp != 1)
-			{
-				if (PRUEBAS_QUERYGET)
-					throw new PDOException();
-			}
-			else if (count($rows) > 0)
-			{
-				$numRows = count($rows);
-				$rows = $this->organizar($rows);
-				$rows['numRows'] = $numRows;
-			}
-			else
-			{
-				$rows['numRows'] = 0;
-			}
+        return $rows;
+    }
 
-			return $rows;
-		}
-		else
-		{
-			if (PRUEBAS_QUERYGET)
-				throw new PDOException();
-		}
-	}
+    /*
+     * Función que ejecuta una consulta de tipo SELECT y retorna organizado el resultado.
+     */
 
-	/*
-	 * Función que ejecuta una consulta de tipo INSERT, UPDATE, DELETE y retorna el id de los registros afectados.
-	 */
+    private function queryGet($statement)
+    {
+        if ($statement)
+        {
+            $resp = $statement->execute();
+            $rows = $statement->fetchAll();
 
-	private function querySet($statement)
-	{
-		if ($statement)
-		{
-			$statement->bindParam(':id', $id, PDO::PARAM_INT, 8);
-			$resp = $statement->execute();
-			if (!$resp)
-			{
-				parent::rollBack();
-				if (PRUEBAS_QUERYSET)
-					throw new PDOException();
-			}
-			else
-			{
-				$datos = (int) $id;
-			}
+            if ($resp != 1)
+            {
+                if (PRUEBAS_QUERYGET)
+                    throw new PDOException();
+            }
+            else if (count($rows) > 0)
+            {
+                $numRows = count($rows);
+                $rows = $this->organizar($rows);
+                $rows['numRows'] = $numRows;
+            }
+            else
+            {
+                $rows['numRows'] = 0;
+            }
 
-			return $datos;
-		}
-		else
-		{
-			parent::rollBack();
-			if (PRUEBAS_QUERYSET)
-				throw new PDOException();
-		}
-	}
+            return $rows;
+        }
+        else
+        {
+            if (PRUEBAS_QUERYGET)
+                throw new PDOException();
+        }
+    }
 
-	public function histEstInsert($idTabla, $estado, $descripcion, $usuario = false)
-	{
-		if (!is_int($idTabla) || empty($idTabla))
-			return array('idTabla' => false);
-		if (!is_int($estado) || empty($estado))
-			return array('estado' => false);
-		if (!is_string($descripcion) || empty($descripcion))
-			return array('descripcion' => false);
-		if ((!$usuario && $usuario != 0) || !is_int($usuario) || empty($usuario))
-			return array('usuario' => false);
+    /*
+     * Función que ejecuta una consulta de tipo INSERT, UPDATE, DELETE y retorna el id de los registros afectados.
+     */
 
-		$valores = array(
-			($usuario) ? Session::get('id') : $usuario,
-			$estado,
-			$descripcion,
-			$idTabla,
-			0
-		);
-		$resp = $this->masterInsert('T_HIST_ESTS', $valores, $id);
+    private function querySet($statement)
+    {
+        if ($statement)
+        {
+            $statement->bindParam(':id', $id, PDO::PARAM_INT, 8);
+            $resp = $statement->execute();
+            if (!$resp)
+            {
+                parent::rollBack();
+                if (PRUEBAS_QUERYSET)
+                    throw new PDOException();
+            }
+            else
+            {
+                $datos = (int) $id;
+            }
 
-		if (PRUEBAS_HIST_EST)
-		{
-			echo '<pre>';
-			echo 'Historico Estados Insert: <br/><hr/>';
-			echo 'Resp: <br/>';
-			print_r($resp);
-			echo '</pre>';
-		}
-	}
+            return $datos;
+        }
+        else
+        {
+            parent::rollBack();
+            if (PRUEBAS_QUERYSET)
+                throw new PDOException();
+        }
+    }
 
-	/*
-	 * Recibe el id($id) del registro y el id de la tabla T_HIST_ESTS ($idReg)
-	 */
+    public function histEstInsert($idTabla, $estado, $descripcion, $usuario = false)
+    {
+        if (!is_int($idTabla) || empty($idTabla))
+            return array('idTabla' => false);
+        if (!is_int($estado) || empty($estado))
+            return array('estado' => false);
+        if (!is_string($descripcion) || empty($descripcion))
+            return array('descripcion' => false);
+        if ((!$usuario && $usuario != 0) || !is_int($usuario) || empty($usuario))
+            return array('usuario' => false);
 
-	public function histEstUpdate($id, $idReg)
-	{
-		if (!is_int($id) || empty($id))
-			return array('id' => false);
-		if (!is_int($idReg) || empty($idReg))
-			return array('idReg' => false);
-		
-		$update = array(
-			'tablas' => 'T_HIST_ESTS',
-			'valores' => "HIST_EST_ID_REGISTRO = $id",
-			'condiciones' => "HIST_EST_ID = $idReg"
-		);
-		$resp = $this->masterUpdate($update, 'HIST_EST_ID');
+        $valores = array(
+            ($usuario) ? Session::get('id') : $usuario,
+            $estado,
+            $descripcion,
+            $idTabla,
+            0
+        );
+        $resp = $this->masterInsert('T_HIST_ESTS', $valores, $id);
 
-		if (PRUEBAS_HIST_EST)
-		{
-			echo '<pre>';
-			echo 'Historico Estados Update: <br/><hr/>';
-			echo 'Resp: <br/>';
-			print_r($resp);
-			echo '</pre>';
-		}
-	}
+        if (PRUEBAS_HIST_EST)
+        {
+            echo '<pre>';
+            echo 'Historico Estados Insert: <br/><hr/>';
+            echo 'Resp: <br/>';
+            print_r($resp);
+            echo '</pre>';
+        }
+
+        return $resp;
+    }
+
+    /*
+     * Recibe el id($id) del registro y el id de la tabla T_HIST_ESTS ($idReg)
+     */
+
+    public function histEstUpdate($id, $idReg)
+    {
+        if (!is_int($id) || empty($id))
+            return array('id' => false);
+        if (!is_int($idReg) || empty($idReg))
+            return array('idReg' => false);
+
+        $update = array(
+            'tablas' => 'T_HIST_ESTS',
+            'valores' => "HIST_EST_ID_REGISTRO = $id",
+            'condiciones' => "HIST_EST_ID = $idReg"
+        );
+        $resp = $this->masterUpdate($update, 'HIST_EST_ID');
+
+        if (PRUEBAS_HIST_EST)
+        {
+            echo '<pre>';
+            echo 'Historico Estados Update: <br/><hr/>';
+            echo 'Resp: <br/>';
+            print_r($resp);
+            echo '</pre>';
+        }
+    }
 
 }

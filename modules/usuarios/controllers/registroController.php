@@ -9,9 +9,12 @@
 
 class registroController extends usuariosController {
 
+    private $_registro;
+
     public function __construct()
     {
         parent::__construct();
+        $this->_registro = $this->loadModel('registro', 'usuarios');
     }
 
     public function registrar()
@@ -23,17 +26,17 @@ class registroController extends usuariosController {
         $this->_view->titulo = 'Registrar Usuario';
 
         $this->_view->ddlTDocumento = $this->_view->setWidget('ddl', 'cargar', array('Tipo de Documento', 'TDocumento', 'T_TIPOS_DOCS', 'TIP_DOCU_ID_ESTADO', 'TIP_DOCU_ID', 'TIP_DOCU_NOMBRE'));
-        
+
         $this->_view->ddlPNacimiento = $this->_view->setWidget('ddl', 'cargar', array('Pais de Nacimiento', 'PNacimiento', 'T_PAISES', 'PAIS_ID_ESTADO', 'PAIS_ID', 'PAIS_NOMBRE'));
 
         $this->_view->ddlNacionalidad = $this->_view->setWidget('ddl', 'cargar', array('Nacionalidad', 'Nacionalidad', 'T_PAISES', 'PAIS_ID_ESTADO', 'PAIS_ID', 'PAIS_NOMBRE'));
-        
+
         $this->_view->ddlGenero = $this->_view->setWidget('ddl', 'cargar', array('Género', 'Genero', 'T_GENEROS', 'GENERO_ID_ESTADO', 'GENERO_ID', 'GENERO_DESCRIPCION'));
-        
+
         $this->_view->ddlGSanguineo = $this->_view->setWidget('ddl', 'cargar', array('Grupo Sanguineo', 'GSanguineo', 'T_TIPOS_SANGS', 'TIP_SAN_ID_ESTADO', 'TIP_SAN_ID', 'TIP_SAN_DESCRIPCION'));
-        
+
         $this->_view->ddlECivil = $this->_view->setWidget('ddl', 'cargar', array('Estado Civil', 'ECivil', 'T_EST_CIVILES', 'EST_CIV_ID_ESTADO', 'EST_CIV_ID', 'EST_CIV_NOMBRE'));
-        
+
         if ($this->getInt('enviar') == 1)
         {
 
@@ -54,8 +57,8 @@ class registroController extends usuariosController {
                     'V001',
                     'V106',
                     'V201',
-                    'V202',
-                    'V301'
+                    'V202'
+                //'V301'
                 ),
                 'mensaje' => 'Documento:',
                 'max' => 20,
@@ -63,8 +66,8 @@ class registroController extends usuariosController {
                 'table' => 'T_DOCUMENTOS',
                 'campo' => 'DOC_NUMERO_DOCUMENTO',
                 'extra' => array(
-                    'DOC_TIPO_DOCUMENTO' => $this->getPostParam('ddlTDocumento'),
-                    'DOC_EST_REG' => '1'
+                    'DOC_ID_TIPO_DOCUMENTO' => $this->getPostParam('ddlTDocumento'),
+                    'DOC_ID_HIST_EST' => '1'
                 )
             );
 
@@ -126,16 +129,16 @@ class registroController extends usuariosController {
                     'V001',
                     'V104',
                     'V201',
-                    'V202',
-                    'V301'
+                    'V202'
+                //'V301'
                 ),
                 'mensaje' => 'Correo Electronico:',
                 'max' => 320,
                 'min' => 5,
-                'table' => 'T_EMAILS',
-                'campo' => 'EMAIL_DIRECCION',
+                'table' => 'T_CORR_ELECS',
+                'campo' => 'CORR_ELEC_DIRECCION',
                 'extra' => array(
-                    'EMAIL_EST_REG' => '1'
+                    'CORR_ELEC_ID_HIST_EST' => '1'
                 )
             );
 
@@ -197,23 +200,23 @@ class registroController extends usuariosController {
                 'mensaje' => 'Estado Civil:'
             );
 
-            $parametros['txtNickName'] = array(
+            $parametros['txtNombreUsu'] = array(
                 'requerido' => true,
                 'valCode' => array(
                     'V001',
                     'V105',
                     'V201',
-                    'V202',
-                    'V301'
+                    'V202'
+                //'V301'
                 ),
                 'mensaje' => 'Nombre de Usuario:',
                 'max' => 20,
                 'min' => 6,
                 'table' => 'T_USUARIOS',
-                'campo' => 'USU_NICK_NAME'
+                'campo' => 'USU_NOMBRE_USU'
             );
 
-            $parametros['txtPassword'] = array(
+            $parametros['txtClave'] = array(
                 'requerido' => true,
                 'valCode' => array(
                     'V001',
@@ -247,8 +250,7 @@ class registroController extends usuariosController {
                 exit;
             }
 
-
-            if ($this->getPostParam('txtPassword') != $this->getPostParam('txtConfirmar'))
+            if ($this->getPostParam('txtClave') != $this->getPostParam('txtConfirmar'))
             {
                 $this->_view->_error = 'Las contraseñas no coinciden';
                 $this->_view->renderizar('registrar', 'registrarse');
@@ -259,92 +261,40 @@ class registroController extends usuariosController {
             $this->getLibrary('phpMailer', 'class.smtp');
             $mail = new PHPMailer();
 
-            $transac = $this->_master->transac();
-            if ($transac)
-            {
-                $campos = array(
-                    'EST_REG_TIP_EST' => 3,
-                    'EST_REG_DESCRIPCION' => 'INSERT - Registrar nuevo usuario',
-                    'EST_REG_TABLA' => 1
-                );
-                $idEstado['T_USUARIOS'] = $this->_reg->registroInsert($campos, 0);
+            $campos['T_USUARIOS'] = array(
+                $this->getPostParam('txtNombre'),
+                $this->getPostParam('txtPApellido'),
+                $this->getPostParam('txtSApellido'),
+                $this->getPostParam('txtFNacimiento'),
+                $this->getPostParam('ddlPNacimiento'),
+                $this->getPostParam('ddlNacionalidad'),
+                $this->getPostParam('ddlGenero'),
+                $this->getPostParam('ddlGSanguineo'),
+                $this->getPostParam('ddlECivil'),
+                $this->getPostParam('txtNombreUsu'),
+                Hash::getHash($this->getPostParam('txtClave'))
+            );
 
-                $campos['T_USUARIOS'] = array(
-                    'USU_NOMBRE' => $this->getPostParam('txtNombre'),
-                    'USU_PRIMER_APELLIDO' => $this->getPostParam('txtPApellido'),
-                    'USU_SEGUNDO_APELLIDO' => $this->getPostParam('txtSApellido'),
-                    'USU_PAIS_NACIMIENTO' => $this->getPostParam('ddlPNacimiento'),
-                    'USU_NACIONALIDAD' => $this->getPostParam('ddlNacionalidad'),
-                    'USU_GENERO' => $this->getPostParam('ddlGenero'),
-                    'USU_GRUPO_SANGUINEO' => $this->getPostParam('ddlGSanguineo'),
-                    'USU_ESTADO_CIVIL' => $this->getPostParam('ddlECivil'),
-                    'USU_NICK_NAME' => $this->getPostParam('txtNickName'),
-                    'USU_PASSWORD' => Hash::getHash($this->getPostParam('txtPassword')),
-                    'USU_EST_REG' => $idEstado['T_USUARIOS'],
-                    'USU_FECHA_NACIMIENTO' => $this->getPostParam('txtFNacimiento')
-                );
-                $T_USUARIOS = $this->_master->masterInsert(false, 'T_USUARIOS', $campos['T_USUARIOS'], 'USU_ID');
+            $campos['T_DOCUMENTOS'] = array(
+                1 => $this->getPostParam('txtDocumento'),
+                2 => $this->getPostParam('ddlTDocumento'),
+                3 => $this->getPostParam('txtLExpedicion'),
+                4 => '0',
+            );
 
-                $this->_reg->registroUpdate($T_USUARIOS, $idEstado['T_USUARIOS']);
+            $campos['T_CORR_ELECS'] = array(
+                1 => $this->getPostParam('txtEmail'),
+                2 => 1,
+            );
 
-                $campos = array(
-                    'EST_REG_TIP_EST' => 3,
-                    'EST_REG_DESCRIPCION' => 'INSERT - Registrar nuevo documento para el usuario' . $T_USUARIOS,
-                    'EST_REG_TABLA' => 7
-                );
-                $idEstado['T_DOCUMENTS'] = $this->_reg->registroInsert($campos, 0);
+            $campos['T_USUS_ROLES'] = array(
+                1 => 3,
+            );
+            
+            $T_USUARIOS = $this->_registro->registro($campos);
 
-                $campos['T_DOCUMENTS'] = array(
-                    'DOC_ID_USUARIO' => $T_USUARIOS,
-                    'DOC_NUMERO_DOCUMENTO' => $this->getPostParam('txtDocumento'),
-                    'DOC_TIPO_DOCUMENTO' => $this->getPostParam('ddlTDocumento'),
-                    'DOC_LUGAR_EXPEDICION' => $this->getPostParam('txtLExpedicion'),
-                    'DOC_RUTA_ACRCHIVO' => '0',
-                    'DOC_EST_REG' => $idEstado['T_DOCUMENTS']
-                );
-                $T_DOCUMENTS = $this->_master->masterInsert(false, 'T_DOCUMENTS', $campos['T_DOCUMENTS'], 'DOC_ID');
 
-                $this->_reg->registroUpdate($T_DOCUMENTS, $idEstado['T_DOCUMENTS']);
-
-                $campos = array(
-                    'EST_REG_TIP_EST' => 3,
-                    'EST_REG_DESCRIPCION' => 'INSERT - Registrar nuevo email para el usuario' . $T_USUARIOS,
-                    'EST_REG_TABLA' => 8
-                );
-                $idEstado['T_EMAILS'] = $this->_reg->registroInsert($campos, 0);
-
-                $campos['T_EMAILS'] = array(
-                    'EMAIL_ID_USUARIO' => $T_USUARIOS,
-                    'EMAIL_DIRECCION' => $this->getPostParam('txtEmail'),
-                    'EMAIL_TIPO_EMAIL' => 1,
-                    'EMAIL_EST_REG' => $idEstado['T_EMAILS']
-                );
-                $T_EMAILS = $this->_master->masterInsert(false, 'T_EMAILS', $campos['T_EMAILS'], 'EMAIL_ID');
-
-                $this->_reg->registroUpdate($T_EMAILS, $idEstado['T_EMAILS']);
-
-                $campos = array(
-                    'EST_REG_TIP_EST' => 3,
-                    'EST_REG_DESCRIPCION' => 'INSERT - Registrar nueva cuenta para el usuario' . $T_USUARIOS,
-                    'EST_REG_TABLA' => 4
-                );
-                $idEstado['T_CUENTAS'] = $this->_reg->registroInsert($campos, 0);
-
-                $campos['T_CUENTAS'] = array(
-                    'CUENTA_ID_USUARIO' => $T_USUARIOS,
-                    'CUENTA_ID_ROL' => 3,
-                    'CUENTA_EST_REG' => $idEstado['T_CUENTAS']
-                );
-                $T_CUENTAS = $this->_master->masterInsert(true, 'T_CUENTAS', $campos['T_CUENTAS'], 'CUENTA_ID');
-
-                $this->_reg->registroUpdate($T_CUENTAS, $idEstado['T_CUENTAS']);
-            }
-            else
-            {
-                throw new Exception('Error al crear la transacción');
-            }
-
-            if (!is_int($T_USUARIOS) || !is_int($T_DOCUMENTS) || !is_int($T_EMAILS) || !is_int($T_CUENTAS))
+            if (!is_int($T_USUARIOS) || !is_int($T_DOCUMENTOS) || !is_int($T_CORR_ELECS) || !is_int($T_USUS_ROLES))
             {
                 $this->_view->_error = 'Error al registrar el usuario';
                 $this->_view->renderizar('registrar', 'registrarse');

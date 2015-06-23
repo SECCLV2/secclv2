@@ -10,14 +10,14 @@
 
 class usuariosController extends Controller {
 
-	protected $_master;
-        protected $_registro;
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-        public function __construct()
-	{
-		parent::__construct();
-	}
-
-	public function index(){}
+    public function index()
+    {
+        
+    }
 
 }
