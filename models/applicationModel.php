@@ -81,5 +81,18 @@ class applicationModel extends Model {
 
 		return $resp;
 	}
+	
+	public function validarEstado($id,$estado)
+	{
+		$select = array(
+			'campos' => '*',
+			'tablas' => 'T_HIST_ESTS ',
+			'condiciones' => "WHERE HIST_EST_ID = '$id'"
+			. " AND HIST_EST_ID_ESTADO = '$estado'"
+		);
+		$resp = $this->masterSelect($select);
+
+		return $resp;
+	}
 
 }

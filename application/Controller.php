@@ -417,6 +417,16 @@ abstract class Controller {
 								$masterModel = $this->loadModel('application');
 								$resp = $masterModel->masterSelect(${$array[$i]}['table'], $condicion);
 
+								if (array_key_exists('estado', ${$array[$i]}) && $resp['numRows'] > 0)
+								{
+									$masterModel = $this->loadModel('application');
+									$resp = $masterModel->validarEstado($resp[end($resp)][0], ${$array[$i]}['estado']);
+								}
+								else
+								{
+									$resp['numRows'] = 0;
+								}
+
 								if ($resp['numRows'] > 0)
 									$result['V301'] = "El valor $dato ya se ecuentra registrado";
 								else
