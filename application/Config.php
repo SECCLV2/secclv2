@@ -7,6 +7,8 @@
  * ---------------------------------------------------------------------------------------------------------------------
  */
 
+
+
 /*
  * Constantes principales del aplicativo, definen la base de la url y los metodos y controladores por default.
  */
