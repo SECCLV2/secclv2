@@ -290,7 +290,7 @@ class registroController extends usuariosController {
             $campos['T_USUS_ROLES'] = array(
                 1 => 3,
             );
-            
+
             $T_USUARIOS = $this->_registro->registro($campos);
 
 
