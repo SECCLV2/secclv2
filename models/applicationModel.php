@@ -20,12 +20,12 @@ class applicationModel extends Model {
 		$select = array(
 			'campos' => '*',
 			'tablas' => 'T_PERMI_ROLES PR '
-			. 'INNER JOIN T_PERMISOS TP'
+			. 'INNER JOIN T_PERMISOS TP '
 			. ' ON TP.PERMISO_ID = PR.PERMROL_ID_PERMISO '
-			. 'INNER JOIN T_ESTADOS_REG ESR'
-			. ' ON ESR.EST_REG_ID = PR.PERMROL_EST_REG ',
+			. 'INNER JOIN T_HIST_ESTS HIS '
+			. ' ON HIS.HIST_EST_ID = PR.PERMROL_ID_HIST_EST ',
 			'condiciones' => "WHERE PR.PERMROL_ID_ROL = '$rol'"
-			. ' AND ESR.EST_REG_TIP_EST = 1'
+			. ' ADN HIS.HIST_EST_ID_ESTADO = 1'
 		);
 		$resp = $this->masterSelect($select);
 
@@ -39,10 +39,10 @@ class applicationModel extends Model {
 			'tablas' => 'T_PERMI_USUS PU '
 			. 'INNER JOIN T_PERMISOS TP'
 			. ' ON TP.PERMISO_ID = PU.PERMUSU_ID_PERMISO '
-			. 'INNER JOIN T_ESTADOS_REG ESR'
-			. ' ON ESR.EST_REG_ID = PU.PERMUSU_EST_REG ',
+			. 'INNER JOIN T_HIST_ESTS HIS '
+			. ' ON HIS.HIST_EST_ID = PU.PERMUSU_ID_HIST_EST ',
 			'condiciones' => "WHERE PU.PERMUSU_ID_USUARIO = '$usuario'"
-			. ' AND ESR.EST_REG_TIP_EST = 1'
+			. ' AND HIS.HIST_EST_ID_ESTADO = 1'
 		);
 		$resp = $this->masterSelect($select);
 

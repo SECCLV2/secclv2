@@ -13,7 +13,7 @@ class loginController extends usuariosController {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_bdLogin = $this->loadModel('login','usuarios');
+		$this->_bdLogin = $this->loadModel('login', 'usuarios');
 	}
 
 	public function login()
@@ -82,15 +82,24 @@ class loginController extends usuariosController {
 
 			$T_CUENTAS = $this->_bdLogin->iniciarSesion($T_USUARIOS['USU_ID'][0]);
 
-			Session::set('logueado', true);
-			Session::set('menu', 0);
-			Session::set('rol', $T_CUENTAS);
-			Session::set('id', $T_USUARIOS['USU_ID'][0]);
-			Session::set('nombres', $T_USUARIOS['USU_NOMBRE'][0]);
-			Session::set('apellidos', $T_USUARIOS['USU_PRIMER_APELLIDO'][0] . ' ' . $T_USUARIOS['USU_SEGUNDO_APELLIDO'][0]);
-			Session::set('tiempo', time());
+			if ($T_CUENTAS['numrows'] == 1)
+			{
+				Session::set('logueado', true);
+				Session::set('menu', 0);
+				Session::set('rol', $T_CUENTAS);
+				Session::set('id', $T_USUARIOS['USU_ID'][0]);
+				Session::set('nombres', $T_USUARIOS['USU_NOMBRE'][0]);
+				Session::set('apellidos', $T_USUARIOS['USU_PRIMER_APELLIDO'][0] . ' ' . $T_USUARIOS['USU_SEGUNDO_APELLIDO'][0]);
+				Session::set('tiempo', time());
 
-			$this->redireccionar();
+				$this->redireccionar();
+			}
+			else
+			{
+				$this->_view->_error = 'Error al tratar de acceder al usuario, por favor intentelo mas tarde';
+				$this->_view->renderizar('login', 'login');
+				exit;
+			}
 		}
 
 		$this->_view->renderizar('login', 'login');

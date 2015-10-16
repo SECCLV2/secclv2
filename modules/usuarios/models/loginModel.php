@@ -24,7 +24,7 @@ class loginModel extends Model {
 		$select = array(
 			'campos' => '*',
 			'tablas' => $tablas,
-			'condiciones' => "USU.USU_NOMBRE_USU = '$usuario'"
+			'condiciones' => "WHERE USU.USU_NOMBRE_USU = '$usuario'"
 			. 'AND HIS.HIST_EST_ID_ESTADO = 1'
 		);
 		$resp = $this->masterSelect($select);
